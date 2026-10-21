@@ -1,0 +1,842 @@
+{
+	"Aino": {
+		"correlation": 0.924,
+		"x": 894,
+		"y": 204,
+		"w": 170,
+		"h": 544
+	},
+	"Albedo": {
+		"correlation": 0.975,
+		"x": 986,
+		"y": 106,
+		"w": 160,
+		"h": 512
+	},
+	"Alhaitham": {
+		"correlation": 0.99,
+		"x": 942,
+		"y": 96,
+		"w": 134,
+		"h": 428
+	},
+	"Aloy": {
+		"correlation": 0.967,
+		"x": 824,
+		"y": 110,
+		"w": 166,
+		"h": 532
+	},
+	"Alyosha": {
+		"correlation": 0.963,
+		"x": 936,
+		"y": 140,
+		"w": 156,
+		"h": 500
+	},
+	"Amber": {
+		"correlation": 0.994,
+		"x": 902,
+		"y": 150,
+		"w": 174,
+		"h": 556
+	},
+	"AratakiItto": {
+		"correlation": 0.991,
+		"x": 960,
+		"y": 88,
+		"w": 154,
+		"h": 492
+	},
+	"Arlecchino": {
+		"correlation": 0.977,
+		"x": 954,
+		"y": 104,
+		"w": 132,
+		"h": 422
+	},
+	"Baizhu": {
+		"correlation": 0.941,
+		"x": 930,
+		"y": 150,
+		"w": 138,
+		"h": 442
+	},
+	"Barbara": {
+		"correlation": 0.984,
+		"x": 936,
+		"y": 100,
+		"w": 174,
+		"h": 556
+	},
+	"Beidou": {
+		"correlation": 0.971,
+		"x": 944,
+		"y": 62,
+		"w": 168,
+		"h": 538
+	},
+	"Bennett": {
+		"correlation": 0.98,
+		"x": 1020,
+		"y": 190,
+		"w": 176,
+		"h": 564
+	},
+	"Candace": {
+		"correlation": 0.955,
+		"x": 962,
+		"y": 130,
+		"w": 176,
+		"h": 564
+	},
+	"Charlotte": {
+		"correlation": 0.958,
+		"x": 964,
+		"y": 178,
+		"w": 152,
+		"h": 486
+	},
+	"Chasca": {
+		"correlation": 0.972,
+		"x": 942,
+		"y": 94,
+		"w": 166,
+		"h": 532
+	},
+	"Chevreuse": {
+		"correlation": 0.984,
+		"x": 940,
+		"y": 236,
+		"w": 172,
+		"h": 550
+	},
+	"Chiori": {
+		"correlation": 0.973,
+		"x": 928,
+		"y": 62,
+		"w": 172,
+		"h": 550
+	},
+	"Chongyun": {
+		"correlation": 0.99,
+		"x": 954,
+		"y": 108,
+		"w": 172,
+		"h": 550
+	},
+	"Citlali": {
+		"correlation": 0.985,
+		"x": 960,
+		"y": 108,
+		"w": 180,
+		"h": 576
+	},
+	"Clorinde": {
+		"correlation": 0.957,
+		"x": 964,
+		"y": 138,
+		"w": 154,
+		"h": 492
+	},
+	"Collei": {
+		"correlation": 0.972,
+		"x": 858,
+		"y": 108,
+		"w": 160,
+		"h": 512
+	},
+	"Columbina": {
+		"correlation": 0.961,
+		"x": 940,
+		"y": 208,
+		"w": 164,
+		"h": 524
+	},
+	"Cyno": {
+		"correlation": 0.966,
+		"x": 944,
+		"y": 214,
+		"w": 152,
+		"h": 486
+	},
+	"Dahlia": {
+		"correlation": 0.958,
+		"x": 944,
+		"y": 96,
+		"w": 156,
+		"h": 500
+	},
+	"Dehya": {
+		"correlation": 0.936,
+		"x": 970,
+		"y": 98,
+		"w": 128,
+		"h": 410
+	},
+	"Diluc": {
+		"correlation": 0.961,
+		"x": 950,
+		"y": 62,
+		"w": 174,
+		"h": 556
+	},
+	"Diona": {
+		"correlation": 0.98,
+		"x": 868,
+		"y": 168,
+		"w": 200,
+		"h": 640
+	},
+	"Dori": {
+		"correlation": 0.971,
+		"x": 944,
+		"y": 152,
+		"w": 176,
+		"h": 564
+	},
+	"Durin": {
+		"correlation": 0.984,
+		"x": 950,
+		"y": 114,
+		"w": 152,
+		"h": 486
+	},
+	"Emilie": {
+		"correlation": 0.944,
+		"x": 928,
+		"y": 98,
+		"w": 154,
+		"h": 492
+	},
+	"Escoffier": {
+		"correlation": 0.942,
+		"x": 948,
+		"y": 96,
+		"w": 190,
+		"h": 608
+	},
+	"Eula": {
+		"correlation": 0.966,
+		"x": 940,
+		"y": 76,
+		"w": 146,
+		"h": 468
+	},
+	"Faruzan": {
+		"correlation": 0.955,
+		"x": 932,
+		"y": 84,
+		"w": 160,
+		"h": 512
+	},
+	"Fischl": {
+		"correlation": 0.963,
+		"x": 944,
+		"y": 94,
+		"w": 176,
+		"h": 564
+	},
+	"Flins": {
+		"correlation": 0.972,
+		"x": 890,
+		"y": 78,
+		"w": 134,
+		"h": 428
+	},
+	"Freminet": {
+		"correlation": 0.997,
+		"x": 1008,
+		"y": 164,
+		"w": 152,
+		"h": 486
+	},
+	"Furina": {
+		"correlation": 0.982,
+		"x": 1004,
+		"y": 164,
+		"w": 128,
+		"h": 410
+	},
+	"Gaming": {
+		"correlation": 0.981,
+		"x": 940,
+		"y": 176,
+		"w": 136,
+		"h": 436
+	},
+	"Ganyu": {
+		"correlation": 0.968,
+		"x": 944,
+		"y": 104,
+		"w": 160,
+		"h": 512
+	},
+	"Gorou": {
+		"correlation": 0.955,
+		"x": 958,
+		"y": 122,
+		"w": 158,
+		"h": 506
+	},
+	"HuTao": {
+		"correlation": 0.984,
+		"x": 1082,
+		"y": 134,
+		"w": 160,
+		"h": 512
+	},
+	"Iansan": {
+		"correlation": 0.976,
+		"x": 836,
+		"y": 180,
+		"w": 240,
+		"h": 768
+	},
+	"Ifa": {
+		"correlation": 0.962,
+		"x": 1006,
+		"y": 190,
+		"w": 152,
+		"h": 486
+	},
+	"Illuga": {
+		"correlation": 0.962,
+		"x": 858,
+		"y": 146,
+		"w": 168,
+		"h": 538
+	},
+	"Ineffa": {
+		"correlation": 0.978,
+		"x": 942,
+		"y": 80,
+		"w": 166,
+		"h": 532
+	},
+	"Jahoda": {
+		"correlation": 0.961,
+		"x": 886,
+		"y": 84,
+		"w": 186,
+		"h": 596
+	},
+	"Jean": {
+		"correlation": 0.962,
+		"x": 952,
+		"y": 70,
+		"w": 154,
+		"h": 492
+	},
+	"Kachina": {
+		"correlation": 0.987,
+		"x": 956,
+		"y": 88,
+		"w": 190,
+		"h": 608
+	},
+	"KaedeharaKazuha": {
+		"correlation": 0.975,
+		"x": 916,
+		"y": 82,
+		"w": 160,
+		"h": 512
+	},
+	"Kaeya": {
+		"correlation": 0.995,
+		"x": 980,
+		"y": 58,
+		"w": 154,
+		"h": 492
+	},
+	"KamisatoAyaka": {
+		"correlation": 0.992,
+		"x": 946,
+		"y": 106,
+		"w": 156,
+		"h": 500
+	},
+	"KamisatoAyato": {
+		"correlation": 0.963,
+		"x": 914,
+		"y": 98,
+		"w": 134,
+		"h": 428
+	},
+	"Kaveh": {
+		"correlation": 0.956,
+		"x": 944,
+		"y": 90,
+		"w": 140,
+		"h": 448
+	},
+	"Keqing": {
+		"correlation": 0.963,
+		"x": 960,
+		"y": 98,
+		"w": 174,
+		"h": 556
+	},
+	"Kinich": {
+		"correlation": 0.986,
+		"x": 850,
+		"y": 188,
+		"w": 160,
+		"h": 512
+	},
+	"Kirara": {
+		"correlation": 0.959,
+		"x": 900,
+		"y": 100,
+		"w": 156,
+		"h": 500
+	},
+	"Klee": {
+		"correlation": 0.986,
+		"x": 932,
+		"y": 234,
+		"w": 190,
+		"h": 608
+	},
+	"KujouSara": {
+		"correlation": 0.976,
+		"x": 958,
+		"y": 92,
+		"w": 136,
+		"h": 436
+	},
+	"KukiShinobu": {
+		"correlation": 0.977,
+		"x": 974,
+		"y": 90,
+		"w": 190,
+		"h": 608
+	},
+	"LanYan": {
+		"correlation": 0.981,
+		"x": 896,
+		"y": 58,
+		"w": 174,
+		"h": 556
+	},
+	"Lauma": {
+		"correlation": 0.937,
+		"x": 932,
+		"y": 124,
+		"w": 138,
+		"h": 442
+	},
+	"Layla": {
+		"correlation": 0.971,
+		"x": 934,
+		"y": 170,
+		"w": 166,
+		"h": 532
+	},
+	"Linnea": {
+		"correlation": 0.94,
+		"x": 1012,
+		"y": 86,
+		"w": 170,
+		"h": 544
+	},
+	"Lisa": {
+		"correlation": 0.977,
+		"x": 930,
+		"y": 46,
+		"w": 178,
+		"h": 570
+	},
+	"Lohen": {
+		"correlation": 0.999,
+		"x": 946,
+		"y": 46,
+		"w": 160,
+		"h": 512
+	},
+	"Lynette": {
+		"correlation": 0.991,
+		"x": 952,
+		"y": 146,
+		"w": 150,
+		"h": 480
+	},
+	"Lyney": {
+		"correlation": 0.969,
+		"x": 972,
+		"y": 162,
+		"w": 138,
+		"h": 442
+	},
+	"Mavuika": {
+		"correlation": 0.979,
+		"x": 862,
+		"y": 252,
+		"w": 164,
+		"h": 524
+	},
+	"Mika": {
+		"correlation": 0.967,
+		"x": 936,
+		"y": 94,
+		"w": 164,
+		"h": 524
+	},
+	"Mona": {
+		"correlation": 0.989,
+		"x": 954,
+		"y": 76,
+		"w": 176,
+		"h": 564
+	},
+	"Mualani": {
+		"correlation": 0.998,
+		"x": 954,
+		"y": 80,
+		"w": 170,
+		"h": 544
+	},
+	"Nahida": {
+		"correlation": 0.98,
+		"x": 900,
+		"y": 244,
+		"w": 190,
+		"h": 608
+	},
+	"Navia": {
+		"correlation": 0.952,
+		"x": 956,
+		"y": 144,
+		"w": 134,
+		"h": 428
+	},
+	"Nefer": {
+		"correlation": 0.975,
+		"x": 930,
+		"y": 156,
+		"w": 142,
+		"h": 454
+	},
+	"Neuvillette": {
+		"correlation": 0.975,
+		"x": 962,
+		"y": 102,
+		"w": 132,
+		"h": 422
+	},
+	"Nicole": {
+		"correlation": 0.93,
+		"x": 930,
+		"y": 166,
+		"w": 142,
+		"h": 454
+	},
+	"Nilou": {
+		"correlation": 0.924,
+		"x": 934,
+		"y": 168,
+		"w": 148,
+		"h": 474
+	},
+	"Ningguang": {
+		"correlation": 0.97,
+		"x": 946,
+		"y": 62,
+		"w": 166,
+		"h": 532
+	},
+	"Noelle": {
+		"correlation": 0.973,
+		"x": 940,
+		"y": 94,
+		"w": 174,
+		"h": 556
+	},
+	"Odette": {
+		"correlation": 0.949,
+		"x": 934,
+		"y": 174,
+		"w": 154,
+		"h": 492
+	},
+	"Ororon": {
+		"correlation": 0.951,
+		"x": 958,
+		"y": 96,
+		"w": 140,
+		"h": 448
+	},
+	"Prune": {
+		"correlation": 0.975,
+		"x": 934,
+		"y": 100,
+		"w": 170,
+		"h": 544
+	},
+	"Qiqi": {
+		"correlation": 0.983,
+		"x": 928,
+		"y": 182,
+		"w": 196,
+		"h": 628
+	},
+	"RaidenShogun": {
+		"correlation": 0.988,
+		"x": 886,
+		"y": 90,
+		"w": 160,
+		"h": 512
+	},
+	"Razor": {
+		"correlation": 0.988,
+		"x": 1000,
+		"y": 120,
+		"w": 174,
+		"h": 556
+	},
+	"Rosaria": {
+		"correlation": 0.975,
+		"x": 940,
+		"y": 90,
+		"w": 156,
+		"h": 500
+	},
+	"Sandrone": {
+		"correlation": 0.977,
+		"x": 940,
+		"y": 184,
+		"w": 170,
+		"h": 544
+	},
+	"SangonomiyaKokomi": {
+		"correlation": 0.95,
+		"x": 914,
+		"y": 112,
+		"w": 168,
+		"h": 538
+	},
+	"Sayu": {
+		"correlation": 0.979,
+		"x": 1014,
+		"y": 122,
+		"w": 210,
+		"h": 672
+	},
+	"Sethos": {
+		"correlation": 0.964,
+		"x": 942,
+		"y": 138,
+		"w": 142,
+		"h": 454
+	},
+	"Shenhe": {
+		"correlation": 0.994,
+		"x": 942,
+		"y": 58,
+		"w": 166,
+		"h": 532
+	},
+	"ShikanoinHeizou": {
+		"correlation": 0.989,
+		"x": 962,
+		"y": 106,
+		"w": 176,
+		"h": 564
+	},
+	"Sigewinne": {
+		"correlation": 0.983,
+		"x": 878,
+		"y": 286,
+		"w": 186,
+		"h": 596
+	},
+	"Skirk": {
+		"correlation": 0.987,
+		"x": 930,
+		"y": 90,
+		"w": 154,
+		"h": 492
+	},
+	"Sucrose": {
+		"correlation": 0.978,
+		"x": 938,
+		"y": 72,
+		"w": 178,
+		"h": 570
+	},
+	"Tartaglia": {
+		"correlation": 0.979,
+		"x": 926,
+		"y": 156,
+		"w": 146,
+		"h": 468
+	},
+	"Thoma": {
+		"correlation": 0.98,
+		"x": 886,
+		"y": 120,
+		"w": 174,
+		"h": 556
+	},
+	"Tighnari": {
+		"correlation": 0.97,
+		"x": 932,
+		"y": 88,
+		"w": 150,
+		"h": 480
+	},
+	"Varesa": {
+		"correlation": 0.987,
+		"x": 924,
+		"y": 90,
+		"w": 184,
+		"h": 588
+	},
+	"Varka": {
+		"correlation": 0.983,
+		"x": 1000,
+		"y": 66,
+		"w": 142,
+		"h": 454
+	},
+	"Venti": {
+		"correlation": 0.976,
+		"x": 892,
+		"y": 86,
+		"w": 190,
+		"h": 608
+	},
+	"Vesna": {
+		"correlation": 0.956,
+		"x": 940,
+		"y": 74,
+		"w": 166,
+		"h": 532
+	},
+	"Vodyanitsa": {
+		"correlation": 0.978,
+		"x": 1034,
+		"y": 302,
+		"w": 158,
+		"h": 506
+	},
+	"Wanderer": {
+		"correlation": 0.968,
+		"x": 966,
+		"y": 204,
+		"w": 134,
+		"h": 428
+	},
+	"Wriothesley": {
+		"correlation": 0.939,
+		"x": 1010,
+		"y": 72,
+		"w": 144,
+		"h": 460
+	},
+	"Xiangling": {
+		"correlation": 0.974,
+		"x": 838,
+		"y": 102,
+		"w": 180,
+		"h": 576
+	},
+	"Xianyun": {
+		"correlation": 0.987,
+		"x": 972,
+		"y": 84,
+		"w": 148,
+		"h": 474
+	},
+	"Xiao": {
+		"correlation": 0.965,
+		"x": 924,
+		"y": 216,
+		"w": 174,
+		"h": 556
+	},
+	"Xilonen": {
+		"correlation": 0.921,
+		"x": 946,
+		"y": 94,
+		"w": 156,
+		"h": 500
+	},
+	"Xingqiu": {
+		"correlation": 0.977,
+		"x": 962,
+		"y": 80,
+		"w": 156,
+		"h": 500
+	},
+	"Xinyan": {
+		"correlation": 0.978,
+		"x": 956,
+		"y": 118,
+		"w": 160,
+		"h": 512
+	},
+	"YaeMiko": {
+		"correlation": 0.972,
+		"x": 900,
+		"y": 70,
+		"w": 166,
+		"h": 532
+	},
+	"Yanfei": {
+		"correlation": 0.958,
+		"x": 814,
+		"y": 108,
+		"w": 164,
+		"h": 524
+	},
+	"Yaoyao": {
+		"correlation": 0.975,
+		"x": 942,
+		"y": 150,
+		"w": 206,
+		"h": 660
+	},
+	"Yelan": {
+		"correlation": 0.987,
+		"x": 960,
+		"y": 112,
+		"w": 148,
+		"h": 474
+	},
+	"Yoimiya": {
+		"correlation": 0.974,
+		"x": 950,
+		"y": 114,
+		"w": 160,
+		"h": 512
+	},
+	"YumemizukiMizuki": {
+		"correlation": 0.962,
+		"x": 936,
+		"y": 122,
+		"w": 168,
+		"h": 538
+	},
+	"YunJin": {
+		"correlation": 0.974,
+		"x": 940,
+		"y": 126,
+		"w": 154,
+		"h": 492
+	},
+	"Zhongli": {
+		"correlation": 0.992,
+		"x": 898,
+		"y": 88,
+		"w": 146,
+		"h": 468
+	},
+	"Zibai": {
+		"correlation": 0.935,
+		"x": 898,
+		"y": 80,
+		"w": 146,
+		"h": 468
+	}
+}
