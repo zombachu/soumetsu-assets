@@ -63,7 +63,7 @@ interface NanokaWeapon {
 	rank: number;
 	type: string;
 }
-interface NanokaArtifactSet {
+interface NanokaArtifact {
 	icon: string;
 	/** The rarities the set drops in. */
 	rank: number[];
@@ -163,22 +163,21 @@ async function writeJson(name: string, entries: Entry[]) {
 const manifest = await json<{ gi: { live: string } }>(`${NANOKA}/manifest.json`);
 const version = manifest.gi.live;
 const data = `${NANOKA}/gi/${version}`;
-const [characters, weapons, artifactSets, goCharacters, goWeapons, goArtifactSets] =
-	await Promise.all([
-		json<Record<string, NanokaCharacter>>(`${data}/character.json`),
-		json<Record<string, NanokaWeapon>>(`${data}/weapon.json`),
-		json<Record<string, NanokaArtifactSet>>(`${data}/artifact.json`),
-		goodKeys('character.ts', ['nonTravelerCharacterKeys', 'allTravelerKeys']),
-		goodKeys(
-			'weapon.ts',
-			['Sword', 'Claymore', 'Polearm', 'Bow', 'Catalyst'].map((t) => `allWeapon${t}Keys`)
-		),
-		goodKeys('artifact.ts', ['allArtifactSetKeys'])
-	]);
+const [characters, weapons, artifacts, goCharacters, goWeapons, goArtifacts] = await Promise.all([
+	json<Record<string, NanokaCharacter>>(`${data}/character.json`),
+	json<Record<string, NanokaWeapon>>(`${data}/weapon.json`),
+	json<Record<string, NanokaArtifact>>(`${data}/artifact.json`),
+	goodKeys('character.ts', ['nonTravelerCharacterKeys', 'allTravelerKeys']),
+	goodKeys(
+		'weapon.ts',
+		['Sword', 'Claymore', 'Polearm', 'Bow', 'Catalyst'].map((t) => `allWeapon${t}Keys`)
+	),
+	goodKeys('artifact.ts', ['allArtifactSetKeys'])
+]);
 
 const characterEntries: Entry[] = [];
 const weaponEntries: Entry[] = [];
-const artifactSetEntries: Entry[] = [];
+const artifactEntries: Entry[] = [];
 const icons: Download[] = [];
 const notInGood: string[] = [];
 
@@ -237,13 +236,13 @@ for (const w of Object.values(weapons)) {
 	add(weaponEntries, entry, goWeapons, 'weapons', w.icon);
 }
 
-for (const s of Object.values(artifactSets)) {
+for (const s of Object.values(artifacts)) {
 	const name = Object.values(s.set)[0].name.en;
 	const entry = { id: toGoodKey(name), name, rarity: Math.max(...s.rank) };
-	add(artifactSetEntries, entry, goArtifactSets, 'sets', s.icon);
+	add(artifactEntries, entry, goArtifacts, 'artifacts', s.icon);
 }
 
-for (const kind of ['characters', 'weapons', 'sets']) {
+for (const kind of ['characters', 'weapons', 'artifacts']) {
 	await mkdir(join(ICON_DIR, kind), { recursive: true });
 }
 const iconsSaved = await saveImages(icons);
@@ -251,11 +250,11 @@ const iconsSaved = await saveImages(icons);
 await mkdir(DATA_DIR, { recursive: true });
 await writeJson('characters.json', characterEntries);
 await writeJson('weapons.json', weaponEntries);
-await writeJson('artifact-sets.json', artifactSetEntries);
+await writeJson('artifacts.json', artifactEntries);
 
 console.log(
 	`nanoka ${version}: ${characterEntries.length} characters, ${weaponEntries.length} weapons, ` +
-		`${artifactSetEntries.length} artifact sets; ${iconsSaved} new icons`
+		`${artifactEntries.length} artifact sets; ${iconsSaved} new icons`
 );
 if (notInGood.length > 0) {
 	console.warn('Left out, not in GOOD (fix toGoodKey if it should be):');

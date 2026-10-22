@@ -33,7 +33,7 @@ const DATA_OUT_DIR = join(ROOT, 'dist/data');
 const ICON_SIZES: Record<string, number> = {
 	characters: 256,
 	weapons: 256,
-	sets: 256,
+	artifacts: 256,
 	elements: 128,
 	'weapon-types': 128
 };
