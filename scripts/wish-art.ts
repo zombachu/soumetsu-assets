@@ -8,6 +8,12 @@
 // Finding the close-up in the splash is slow, so fetch.ts does it once per character (align) and
 // saves it to alignments.json. build.ts only cuts and blends (blendArt).
 //
+// Each character but those in NO_CUTOUT also gets a cutout: the art with only the character left,
+// its alpha multiplied by a mask. fetch.ts cuts the masks (see segment.ts) into
+// assets-src/wish/<id>/mask.png, white where the character is, and records the framing each was
+// cut from in masks.json. A mask can be fixed by hand, and fetch.ts keeps it until the art is
+// framed differently, then cuts it again, hand fixes and all.
+//
 // The originals are in assets-src/wish/<id>/: splash.png, plus closeup.png for every character but
 // the Traveler. Either can be a .webp instead, as the Traveler's splash is.
 
@@ -19,7 +25,22 @@ import sharp, { type Sharp } from 'sharp';
 export const ROOT = resolve(import.meta.dirname, '..');
 export const WISH_SRC_DIR = join(ROOT, 'assets-src/wish');
 export const WISH_OUT_DIR = join(ROOT, 'dist/art/wish');
+export const CUTOUT_OUT_DIR = join(ROOT, 'dist/art/cutout');
 const ALIGNMENTS = join(WISH_SRC_DIR, 'alignments.json');
+const MASKS = join(WISH_SRC_DIR, 'masks.json');
+
+/** Characters whose mask keeps part of the scene and isn't worth fixing by hand: no cutout. */
+export const NO_CUTOUT = new Set([
+	'Cyno',
+	'Diluc',
+	'Gaming',
+	'Navia',
+	'Qiqi',
+	'Razor',
+	'Sethos',
+	'Sigewinne',
+	'YaeMiko'
+]);
 
 /** The close-up's share of the art's width: the rest is splash around it. */
 export const ZOOM = 0.9;
@@ -51,6 +72,58 @@ export interface Rect {
 
 /** Where the close-up sits in the splash, in splash px, and how well it matched there. */
 export type Alignment = Rect & { correlation: number };
+
+/** What `wishArt` frames a character's art from (see `framing`). */
+export type Framing = Record<string, number | boolean>;
+
+/** The character's art. `alignment` is from alignments.json, needed if they have a close-up. */
+export async function wishArt(s: WishSource, alignment?: Alignment): Promise<Sharp> {
+	const splash = await readFile(s.splash);
+	if (!s.closeUp) return figureArt(splash);
+	if (alignment!.correlation < MIN_CORRELATION) return sharp(s.closeUp);
+	return blendArt(splash, await readFile(s.closeUp), alignment!);
+}
+
+/**
+ * What `wishArt` frames the character's art from, since a mask only fits the framing it was cut
+ * from. FEATHER changes pixels without moving them, so it isn't part of it.
+ */
+export function framing(s: WishSource, alignment?: Alignment): Framing {
+	if (!s.closeUp) {
+		return { figureWidth: FIGURE_WIDTH, faceBelowTop: FACE_BELOW_TOP, faceAt: FACE_AT };
+	}
+	if (alignment!.correlation < MIN_CORRELATION) return { closeUpAlone: true };
+	const { x, y, w, h } = alignment!;
+	return { zoom: ZOOM, x, y, w, h };
+}
+
+/** Whether the character has a mask, cut from the framing their art has now. */
+export function maskFits(
+	s: WishSource,
+	alignment: Alignment | undefined,
+	masks: Record<string, Framing>
+) {
+	const cut = masks[s.id];
+	if (!cut || !existsSync(maskFile(s.id))) return false;
+	return JSON.stringify(cut) === JSON.stringify(framing(s, alignment));
+}
+
+/** The art with its alpha multiplied by the mask at `mask`, which has to be the art's size. */
+export async function cutout(art: Buffer, mask: string): Promise<Sharp> {
+	const { data, info } = await sharp(art).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+	// Flattened, in case a hand fix was saved in color or erased to transparent rather than black.
+	const m = await sharp(mask)
+		.flatten({ background: '#000' })
+		.toColourspace('b-w')
+		.raw()
+		.toBuffer({ resolveWithObject: true });
+	if (m.info.width !== info.width || m.info.height !== info.height) {
+		const sizes = `${m.info.width} × ${m.info.height}, the art ${info.width} × ${info.height}`;
+		throw new Error(`${mask} is ${sizes}`);
+	}
+	for (let p = 0; p < m.data.length; p++) data[p * 4 + 3] = (data[p * 4 + 3] * m.data[p]) / 255;
+	return sharp(data, { raw: { width: info.width, height: info.height, channels: 4 } });
+}
 
 /** The splash and close-up blended, with the close-up at `at` in the splash. */
 export async function blendArt(splash: Buffer, closeUp: Buffer, at: Rect): Promise<Sharp> {
@@ -270,14 +343,22 @@ export function image(dir: string, name: string): string | undefined {
 	return ['png', 'webp'].map((ext) => join(dir, `${name}.${ext}`)).find((file) => existsSync(file));
 }
 
-export async function readAlignments(): Promise<Record<string, Alignment>> {
-	if (!existsSync(ALIGNMENTS)) return {};
-	return JSON.parse(await readFile(ALIGNMENTS, 'utf8'));
+export const maskFile = (id: string) => join(WISH_SRC_DIR, id, 'mask.png');
+
+export const readAlignments = () => readRecord<Alignment>(ALIGNMENTS);
+export const writeAlignments = (alignments: Record<string, Alignment>) =>
+	writeRecord(ALIGNMENTS, alignments);
+
+/** The framing each mask was cut from. */
+export const readMasks = () => readRecord<Framing>(MASKS);
+export const writeMasks = (masks: Record<string, Framing>) => writeRecord(MASKS, masks);
+
+async function readRecord<T>(file: string): Promise<Record<string, T>> {
+	if (!existsSync(file)) return {};
+	return JSON.parse(await readFile(file, 'utf8'));
 }
 
-export async function writeAlignments(alignments: Record<string, Alignment>) {
-	const sorted = Object.fromEntries(
-		Object.entries(alignments).sort(([a], [b]) => a.localeCompare(b))
-	);
-	await writeFile(ALIGNMENTS, JSON.stringify(sorted, null, '\t') + '\n');
+async function writeRecord(file: string, record: Record<string, unknown>) {
+	const sorted = Object.fromEntries(Object.entries(record).sort(([a], [b]) => a.localeCompare(b)));
+	await writeFile(file, JSON.stringify(sorted, null, '\t') + '\n');
 }

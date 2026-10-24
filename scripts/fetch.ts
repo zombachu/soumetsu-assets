@@ -8,20 +8,32 @@
 // 2. The wish art's originals into assets-src/wish/<id>/.
 // 3. Where each new close-up sits in its splash, into assets-src/wish/alignments.json (see
 //    wish-art.ts). Delete a character's entry to align it again, or edit it by hand.
+// 4. The cutouts' masks, into assets-src/wish/<id>/mask.png (see wish-art.ts and segment.ts),
+//    for characters with none or whose art is now framed differently. Needs macOS. Delete a
+//    mask to cut it again, or fix it by hand.
 //
 // nanoka serves the game's images as WebP, so that's what the originals are.
 
+import { existsSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { basename, dirname, join } from 'node:path';
+import { cutMasks } from './segment.ts';
 import {
 	align,
+	framing,
 	image,
+	maskFile,
+	maskFits,
 	MIN_CORRELATION,
+	NO_CUTOUT,
 	readAlignments,
+	readMasks,
 	ROOT,
 	WISH_SRC_DIR,
+	wishArt,
 	wishSources,
-	writeAlignments
+	writeAlignments,
+	writeMasks
 } from './wish-art.ts';
 
 const NANOKA = 'https://static.nanoka.cc';
@@ -33,11 +45,14 @@ const DATA_DIR = join(ROOT, 'assets-src/data');
 const ICON_DIR = join(ROOT, 'assets-src/icons');
 
 const ELEMENTS = ['Anemo', 'Geo', 'Electro', 'Dendro', 'Hydro', 'Pyro', 'Cryo'];
-const RARITIES: Record<string, number> = {
-	QUALITY_ORANGE: 5,
+// The data names rarities as words, so the site can key them in display order (JS lists integer
+// keys ascending).
+const STARS: Record<number, string> = { 1: 'One', 2: 'Two', 3: 'Three', 4: 'Four', 5: 'Five' };
+const RARITIES: Record<string, string> = {
+	QUALITY_ORANGE: 'Five',
 	// Aloy.
-	QUALITY_ORANGE_SP: 5,
-	QUALITY_PURPLE: 4
+	QUALITY_ORANGE_SP: 'Five',
+	QUALITY_PURPLE: 'Four'
 };
 const WEAPON_TYPES: Record<string, string> = {
 	WEAPON_SWORD_ONE_HAND: 'Sword',
@@ -231,14 +246,14 @@ for (const w of Object.values(weapons)) {
 		id: toGoodKey(w.en),
 		name: w.en,
 		type: lookup(WEAPON_TYPES, w.type, w.en),
-		rarity: w.rank
+		rarity: STARS[w.rank]
 	};
 	add(weaponEntries, entry, goWeapons, 'weapons', w.icon);
 }
 
 for (const s of Object.values(artifacts)) {
 	const name = Object.values(s.set)[0].name.en;
-	const entry = { id: toGoodKey(name), name, rarity: Math.max(...s.rank) };
+	const entry = { id: toGoodKey(name), name, rarity: STARS[Math.max(...s.rank)] };
 	add(artifactEntries, entry, goArtifacts, 'artifacts', s.icon);
 }
 
@@ -306,3 +321,29 @@ const alignWorker = async () => {
 };
 await Promise.all(Array.from({ length: 4 }, alignWorker));
 await writeAlignments(alignments);
+
+// The cutouts' masks.
+
+const masks = await readMasks();
+const toCut = (await wishSources()).filter((s) => {
+	if (NO_CUTOUT.has(s.id) || (s.closeUp && !alignments[s.id])) return false;
+	return !maskFits(s, alignments[s.id], masks);
+});
+const reframed = toCut.filter((s) => masks[s.id] && existsSync(maskFile(s.id))).map((s) => s.id);
+if (toCut.length > 0) {
+	const started = performance.now();
+	const arts = await Promise.all(
+		toCut.map(async (s) => (await wishArt(s, alignments[s.id])).png().toBuffer())
+	);
+	const cut = await cutMasks(arts);
+	for (const [i, s] of toCut.entries()) {
+		await writeFile(maskFile(s.id), cut[i]);
+		masks[s.id] = framing(s, alignments[s.id]);
+	}
+	await writeMasks(masks);
+	const seconds = ((performance.now() - started) / 1000).toFixed(1);
+	console.log(`Masks: ${toCut.length} cut in ${seconds}s`);
+	if (reframed.length > 0) {
+		console.warn(`Cut again, as their art is framed differently: ${reframed.join(', ')}`);
+	}
+}

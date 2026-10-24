@@ -4,22 +4,27 @@
 //
 // 1. dist/icons/<kind>/<id>.webp, shrunk to fit ICON_SIZES. An icon is remade when its original
 //    is newer, so after changing ICON_SIZES or QUALITY, delete dist/icons/ to remake them all.
-// 2. dist/art/wish/<id>.webp (see wish-art.ts). Art is remade when its inputs change, tracked in
-//    .inputs.json there.
-// 3. dist/data/*.json, copied from assets-src/data/.
+// 2. dist/art/wish/<id>.webp and dist/art/cutout/<id>.webp (see wish-art.ts). Art is remade when
+//    its inputs change, tracked in .inputs.json in dist/art/wish/.
+// 3. dist/data/*.json, copied from assets-src/data/, and dist/data/cutouts.json, the IDs of the
+//    characters with a cutout.
 
-import { copyFile, mkdir, readdir, readFile, stat, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join, parse } from 'node:path';
 import sharp from 'sharp';
 import {
-	blendArt,
+	CUTOUT_OUT_DIR,
+	cutout,
 	FEATHER,
-	figureArt,
-	MIN_CORRELATION,
+	maskFile,
+	maskFits,
+	NO_CUTOUT,
 	readAlignments,
+	readMasks,
 	ROOT,
 	WISH_OUT_DIR,
+	wishArt,
 	wishSources,
 	ZOOM
 } from './wish-art.ts';
@@ -76,12 +81,16 @@ console.log(`Data: ${dataFiles.length} files copied`);
 // The wish art.
 
 const alignments = await readAlignments();
+const masks = await readMasks();
 await mkdir(WISH_OUT_DIR, { recursive: true });
+await mkdir(CUTOUT_OUT_DIR, { recursive: true });
 const previous: Record<string, string> = existsSync(INPUTS)
 	? JSON.parse(await readFile(INPUTS, 'utf8'))
 	: {};
 const inputs: Record<string, string> = {};
 const unaligned: string[] = [];
+const uncut: string[] = [];
+const cutouts: string[] = [];
 let artMade = 0;
 
 for (const s of await wishSources()) {
@@ -90,30 +99,44 @@ for (const s of await wishSources()) {
 		unaligned.push(s.id);
 		continue;
 	}
+	const mask = maskFile(s.id);
+	const cut = !NO_CUTOUT.has(s.id);
+	if (cut && !maskFits(s, alignment, masks)) {
+		uncut.push(s.id);
+		continue;
+	}
 	const file = join(WISH_OUT_DIR, `${s.id}.webp`);
+	const cutoutFile = join(CUTOUT_OUT_DIR, `${s.id}.webp`);
+	if (cut) cutouts.push(s.id);
+	else await rm(cutoutFile, { force: true });
 	const key = JSON.stringify([
 		await modified(s.splash),
 		await modified(s.closeUp),
 		alignment,
+		cut && (await modified(mask)),
 		ZOOM,
 		FEATHER,
 		QUALITY
 	]);
 	inputs[s.id] = key;
-	if (previous[s.id] === key && existsSync(file)) continue;
+	if (previous[s.id] === key && existsSync(file) && (!cut || existsSync(cutoutFile))) continue;
 
-	const splash = await readFile(s.splash);
-	let art;
-	if (!s.closeUp) art = await figureArt(splash);
-	else if (alignment.correlation < MIN_CORRELATION) art = sharp(s.closeUp);
-	else art = await blendArt(splash, await readFile(s.closeUp), alignment);
-	await art.webp({ quality: QUALITY }).toFile(file);
+	const art = await (await wishArt(s, alignment)).png().toBuffer();
+	await sharp(art).webp({ quality: QUALITY }).toFile(file);
+	if (cut) await (await cutout(art, mask)).webp({ quality: QUALITY }).toFile(cutoutFile);
 	artMade++;
 }
 
 await writeFile(INPUTS, JSON.stringify(inputs, null, '\t') + '\n');
+await writeFile(join(DATA_OUT_DIR, 'cutouts.json'), JSON.stringify(cutouts, null, '\t') + '\n');
 console.log(`Wish art: ${artMade} made, ${Object.keys(inputs).length - artMade} unchanged`);
+console.log(`Cutouts: ${cutouts.length}, ${NO_CUTOUT.size} left out (NO_CUTOUT)`);
 if (unaligned.length > 0) {
 	console.error(`No alignment for ${unaligned.join(', ')}: run npm run fetch and commit it`);
-	process.exit(1);
 }
+if (uncut.length > 0) {
+	console.error(
+		`No mask, or one cut for other framing, for ${uncut.join(', ')}: run npm run fetch and commit it`
+	);
+}
+if (unaligned.length > 0 || uncut.length > 0) process.exit(1);

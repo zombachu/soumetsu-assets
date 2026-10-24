@@ -11,6 +11,7 @@
 	"devDependencies": {
 		"@aws-sdk/client-s3": "^3.1154.0",
 		"@types/node": "^24.0.0",
+		"onnxruntime-node": "^1.30.0",
 		"sharp": "^0.35.5",
 		"typescript": "^6.0.3"
 	}

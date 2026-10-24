@@ -4,888 +4,888 @@
 		"name": "Aino",
 		"element": "Hydro",
 		"weaponType": "Claymore",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Albedo",
 		"name": "Albedo",
 		"element": "Geo",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Alhaitham",
 		"name": "Alhaitham",
 		"element": "Dendro",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Aloy",
 		"name": "Aloy",
 		"element": "Cryo",
 		"weaponType": "Bow",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Alyosha",
 		"name": "Alyosha",
 		"element": "Electro",
 		"weaponType": "Polearm",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Amber",
 		"name": "Amber",
 		"element": "Pyro",
 		"weaponType": "Bow",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "AratakiItto",
 		"name": "Arataki Itto",
 		"element": "Geo",
 		"weaponType": "Claymore",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Arlecchino",
 		"name": "Arlecchino",
 		"element": "Pyro",
 		"weaponType": "Polearm",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Baizhu",
 		"name": "Baizhu",
 		"element": "Dendro",
 		"weaponType": "Catalyst",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Barbara",
 		"name": "Barbara",
 		"element": "Hydro",
 		"weaponType": "Catalyst",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Beidou",
 		"name": "Beidou",
 		"element": "Electro",
 		"weaponType": "Claymore",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Bennett",
 		"name": "Bennett",
 		"element": "Pyro",
 		"weaponType": "Sword",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Candace",
 		"name": "Candace",
 		"element": "Hydro",
 		"weaponType": "Polearm",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Charlotte",
 		"name": "Charlotte",
 		"element": "Cryo",
 		"weaponType": "Catalyst",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Chasca",
 		"name": "Chasca",
 		"element": "Anemo",
 		"weaponType": "Bow",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Chevreuse",
 		"name": "Chevreuse",
 		"element": "Pyro",
 		"weaponType": "Polearm",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Chiori",
 		"name": "Chiori",
 		"element": "Geo",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Chongyun",
 		"name": "Chongyun",
 		"element": "Cryo",
 		"weaponType": "Claymore",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Citlali",
 		"name": "Citlali",
 		"element": "Cryo",
 		"weaponType": "Catalyst",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Clorinde",
 		"name": "Clorinde",
 		"element": "Electro",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Collei",
 		"name": "Collei",
 		"element": "Dendro",
 		"weaponType": "Bow",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Columbina",
 		"name": "Columbina",
 		"element": "Hydro",
 		"weaponType": "Catalyst",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Cyno",
 		"name": "Cyno",
 		"element": "Electro",
 		"weaponType": "Polearm",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Dahlia",
 		"name": "Dahlia",
 		"element": "Hydro",
 		"weaponType": "Sword",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Dehya",
 		"name": "Dehya",
 		"element": "Pyro",
 		"weaponType": "Claymore",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Diluc",
 		"name": "Diluc",
 		"element": "Pyro",
 		"weaponType": "Claymore",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Diona",
 		"name": "Diona",
 		"element": "Cryo",
 		"weaponType": "Bow",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Dori",
 		"name": "Dori",
 		"element": "Electro",
 		"weaponType": "Claymore",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Durin",
 		"name": "Durin",
 		"element": "Pyro",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Emilie",
 		"name": "Emilie",
 		"element": "Dendro",
 		"weaponType": "Polearm",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Escoffier",
 		"name": "Escoffier",
 		"element": "Cryo",
 		"weaponType": "Polearm",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Eula",
 		"name": "Eula",
 		"element": "Cryo",
 		"weaponType": "Claymore",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Faruzan",
 		"name": "Faruzan",
 		"element": "Anemo",
 		"weaponType": "Bow",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Fischl",
 		"name": "Fischl",
 		"element": "Electro",
 		"weaponType": "Bow",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Flins",
 		"name": "Flins",
 		"element": "Electro",
 		"weaponType": "Polearm",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Freminet",
 		"name": "Freminet",
 		"element": "Cryo",
 		"weaponType": "Claymore",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Furina",
 		"name": "Furina",
 		"element": "Hydro",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Gaming",
 		"name": "Gaming",
 		"element": "Pyro",
 		"weaponType": "Claymore",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Ganyu",
 		"name": "Ganyu",
 		"element": "Cryo",
 		"weaponType": "Bow",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Gorou",
 		"name": "Gorou",
 		"element": "Geo",
 		"weaponType": "Bow",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "HuTao",
 		"name": "Hu Tao",
 		"element": "Pyro",
 		"weaponType": "Polearm",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Iansan",
 		"name": "Iansan",
 		"element": "Electro",
 		"weaponType": "Polearm",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Ifa",
 		"name": "Ifa",
 		"element": "Anemo",
 		"weaponType": "Catalyst",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Illuga",
 		"name": "Illuga",
 		"element": "Geo",
 		"weaponType": "Polearm",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Ineffa",
 		"name": "Ineffa",
 		"element": "Electro",
 		"weaponType": "Polearm",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Jahoda",
 		"name": "Jahoda",
 		"element": "Anemo",
 		"weaponType": "Bow",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Jean",
 		"name": "Jean",
 		"element": "Anemo",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Kachina",
 		"name": "Kachina",
 		"element": "Geo",
 		"weaponType": "Polearm",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "KaedeharaKazuha",
 		"name": "Kaedehara Kazuha",
 		"element": "Anemo",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Kaeya",
 		"name": "Kaeya",
 		"element": "Cryo",
 		"weaponType": "Sword",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "KamisatoAyaka",
 		"name": "Kamisato Ayaka",
 		"element": "Cryo",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "KamisatoAyato",
 		"name": "Kamisato Ayato",
 		"element": "Hydro",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Kaveh",
 		"name": "Kaveh",
 		"element": "Dendro",
 		"weaponType": "Claymore",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Keqing",
 		"name": "Keqing",
 		"element": "Electro",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Kinich",
 		"name": "Kinich",
 		"element": "Dendro",
 		"weaponType": "Claymore",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Kirara",
 		"name": "Kirara",
 		"element": "Dendro",
 		"weaponType": "Sword",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Klee",
 		"name": "Klee",
 		"element": "Pyro",
 		"weaponType": "Catalyst",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "KujouSara",
 		"name": "Kujou Sara",
 		"element": "Electro",
 		"weaponType": "Bow",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "KukiShinobu",
 		"name": "Kuki Shinobu",
 		"element": "Electro",
 		"weaponType": "Sword",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "LanYan",
 		"name": "Lan Yan",
 		"element": "Anemo",
 		"weaponType": "Catalyst",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Lauma",
 		"name": "Lauma",
 		"element": "Dendro",
 		"weaponType": "Catalyst",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Layla",
 		"name": "Layla",
 		"element": "Cryo",
 		"weaponType": "Sword",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Linnea",
 		"name": "Linnea",
 		"element": "Geo",
 		"weaponType": "Bow",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Lisa",
 		"name": "Lisa",
 		"element": "Electro",
 		"weaponType": "Catalyst",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Lohen",
 		"name": "Lohen",
 		"element": "Cryo",
 		"weaponType": "Polearm",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Lynette",
 		"name": "Lynette",
 		"element": "Anemo",
 		"weaponType": "Sword",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Lyney",
 		"name": "Lyney",
 		"element": "Pyro",
 		"weaponType": "Bow",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Mavuika",
 		"name": "Mavuika",
 		"element": "Pyro",
 		"weaponType": "Claymore",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Mika",
 		"name": "Mika",
 		"element": "Cryo",
 		"weaponType": "Polearm",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Mona",
 		"name": "Mona",
 		"element": "Hydro",
 		"weaponType": "Catalyst",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Mualani",
 		"name": "Mualani",
 		"element": "Hydro",
 		"weaponType": "Catalyst",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Nahida",
 		"name": "Nahida",
 		"element": "Dendro",
 		"weaponType": "Catalyst",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Navia",
 		"name": "Navia",
 		"element": "Geo",
 		"weaponType": "Claymore",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Nefer",
 		"name": "Nefer",
 		"element": "Dendro",
 		"weaponType": "Catalyst",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Neuvillette",
 		"name": "Neuvillette",
 		"element": "Hydro",
 		"weaponType": "Catalyst",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Nicole",
 		"name": "Nicole",
 		"element": "Pyro",
 		"weaponType": "Catalyst",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Nilou",
 		"name": "Nilou",
 		"element": "Hydro",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Ningguang",
 		"name": "Ningguang",
 		"element": "Geo",
 		"weaponType": "Catalyst",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Noelle",
 		"name": "Noelle",
 		"element": "Geo",
 		"weaponType": "Claymore",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Odette",
 		"name": "Odette",
 		"element": "Cryo",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Ororon",
 		"name": "Ororon",
 		"element": "Electro",
 		"weaponType": "Bow",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Prune",
 		"name": "Prune",
 		"element": "Anemo",
 		"weaponType": "Catalyst",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Qiqi",
 		"name": "Qiqi",
 		"element": "Cryo",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "RaidenShogun",
 		"name": "Raiden Shogun",
 		"element": "Electro",
 		"weaponType": "Polearm",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Razor",
 		"name": "Razor",
 		"element": "Electro",
 		"weaponType": "Claymore",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Rosaria",
 		"name": "Rosaria",
 		"element": "Cryo",
 		"weaponType": "Polearm",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Sandrone",
 		"name": "Sandrone",
 		"element": "Cryo",
 		"weaponType": "Claymore",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "SangonomiyaKokomi",
 		"name": "Sangonomiya Kokomi",
 		"element": "Hydro",
 		"weaponType": "Catalyst",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Sayu",
 		"name": "Sayu",
 		"element": "Anemo",
 		"weaponType": "Claymore",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Sethos",
 		"name": "Sethos",
 		"element": "Electro",
 		"weaponType": "Bow",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Shenhe",
 		"name": "Shenhe",
 		"element": "Cryo",
 		"weaponType": "Polearm",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "ShikanoinHeizou",
 		"name": "Shikanoin Heizou",
 		"element": "Anemo",
 		"weaponType": "Catalyst",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Sigewinne",
 		"name": "Sigewinne",
 		"element": "Hydro",
 		"weaponType": "Bow",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Skirk",
 		"name": "Skirk",
 		"element": "Cryo",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Sucrose",
 		"name": "Sucrose",
 		"element": "Anemo",
 		"weaponType": "Catalyst",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Tartaglia",
 		"name": "Tartaglia",
 		"element": "Hydro",
 		"weaponType": "Bow",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Thoma",
 		"name": "Thoma",
 		"element": "Pyro",
 		"weaponType": "Polearm",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Tighnari",
 		"name": "Tighnari",
 		"element": "Dendro",
 		"weaponType": "Bow",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "TravelerAnemo",
 		"name": "Anemo Traveler",
 		"element": "Anemo",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "TravelerCryo",
 		"name": "Cryo Traveler",
 		"element": "Cryo",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "TravelerDendro",
 		"name": "Dendro Traveler",
 		"element": "Dendro",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "TravelerElectro",
 		"name": "Electro Traveler",
 		"element": "Electro",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "TravelerGeo",
 		"name": "Geo Traveler",
 		"element": "Geo",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "TravelerHydro",
 		"name": "Hydro Traveler",
 		"element": "Hydro",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "TravelerPyro",
 		"name": "Pyro Traveler",
 		"element": "Pyro",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Varesa",
 		"name": "Varesa",
 		"element": "Electro",
 		"weaponType": "Catalyst",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Varka",
 		"name": "Varka",
 		"element": "Anemo",
 		"weaponType": "Claymore",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Venti",
 		"name": "Venti",
 		"element": "Anemo",
 		"weaponType": "Bow",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Vesna",
 		"name": "Vesna",
 		"element": "Anemo",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Vodyanitsa",
 		"name": "Vodyanitsa",
 		"element": "Hydro",
 		"weaponType": "Catalyst",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Wanderer",
 		"name": "Wanderer",
 		"element": "Anemo",
 		"weaponType": "Catalyst",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Wriothesley",
 		"name": "Wriothesley",
 		"element": "Cryo",
 		"weaponType": "Catalyst",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Xiangling",
 		"name": "Xiangling",
 		"element": "Pyro",
 		"weaponType": "Polearm",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Xianyun",
 		"name": "Xianyun",
 		"element": "Anemo",
 		"weaponType": "Catalyst",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Xiao",
 		"name": "Xiao",
 		"element": "Anemo",
 		"weaponType": "Polearm",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Xilonen",
 		"name": "Xilonen",
 		"element": "Geo",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Xingqiu",
 		"name": "Xingqiu",
 		"element": "Hydro",
 		"weaponType": "Sword",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Xinyan",
 		"name": "Xinyan",
 		"element": "Pyro",
 		"weaponType": "Claymore",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "YaeMiko",
 		"name": "Yae Miko",
 		"element": "Electro",
 		"weaponType": "Catalyst",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Yanfei",
 		"name": "Yanfei",
 		"element": "Pyro",
 		"weaponType": "Catalyst",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Yaoyao",
 		"name": "Yaoyao",
 		"element": "Dendro",
 		"weaponType": "Polearm",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Yelan",
 		"name": "Yelan",
 		"element": "Hydro",
 		"weaponType": "Bow",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Yoimiya",
 		"name": "Yoimiya",
 		"element": "Pyro",
 		"weaponType": "Bow",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "YumemizukiMizuki",
 		"name": "Yumemizuki Mizuki",
 		"element": "Anemo",
 		"weaponType": "Catalyst",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "YunJin",
 		"name": "Yun Jin",
 		"element": "Geo",
 		"weaponType": "Polearm",
-		"rarity": 4
+		"rarity": "Four"
 	},
 	{
 		"id": "Zhongli",
 		"name": "Zhongli",
 		"element": "Geo",
 		"weaponType": "Polearm",
-		"rarity": 5
+		"rarity": "Five"
 	},
 	{
 		"id": "Zibai",
 		"name": "Zibai",
 		"element": "Geo",
 		"weaponType": "Sword",
-		"rarity": 5
+		"rarity": "Five"
 	}
 ]
