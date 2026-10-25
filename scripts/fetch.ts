@@ -61,6 +61,18 @@ const WEAPON_TYPES: Record<string, string> = {
 	WEAPON_BOW: 'Bow',
 	WEAPON_CATALYST: 'Catalyst'
 };
+// nanoka dates every Traveler 1970-01-01, so each gets the date nanoka gives its version's first
+// banner, and Klee at launch, though her first banner came a month later.
+const RELEASES: Record<string, string> = {
+	TravelerAnemo: '2020-09-15',
+	TravelerGeo: '2020-09-15',
+	Klee: '2020-10-20',
+	TravelerElectro: '2021-07-21',
+	TravelerDendro: '2022-08-24',
+	TravelerHydro: '2023-08-15',
+	TravelerPyro: '2024-12-31',
+	TravelerCryo: '2026-08-11'
+};
 
 interface NanokaCharacter {
 	en: string;
@@ -216,12 +228,16 @@ for (const c of Object.values(characters)) {
 	const traveler = c.en === 'Traveler';
 	// Each Traveler element is listed once per twin. Keep one, with Lumine's icon.
 	if (traveler && !c.icon.endsWith('PlayerGirl')) continue;
+	const id = traveler ? `Traveler${c.element}` : toGoodKey(c.en);
+	const release = RELEASES[id] ?? c.release.slice(0, 10);
+	if (release.startsWith('1970')) throw new Error(`${id}: no release date, add one to RELEASES`);
 	const entry = {
-		id: traveler ? `Traveler${c.element}` : toGoodKey(c.en),
+		id,
 		name: traveler ? `${c.element} Traveler` : c.en,
 		element: c.element,
 		weaponType: lookup(WEAPON_TYPES, c.weapon, c.en),
-		rarity: lookup(RARITIES, c.rank, c.en)
+		rarity: lookup(RARITIES, c.rank, c.en),
+		release
 	};
 	add(characterEntries, entry, goCharacters, 'characters', c.icon);
 	const name = c.icon.replace('UI_AvatarIcon_', '');
