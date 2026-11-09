@@ -2,316 +2,379 @@
     {
         "id": "ADayCarvedFromRisingWinds",
         "name": "A Day Carved From Rising Winds",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "6.3.0"
     },
     {
         "id": "Adventurer",
         "name": "Adventurer",
-        "rarity": "Four"
+        "rarity": "Three",
+        "release": "1.0.0"
     },
     {
         "id": "ArchaicPetra",
         "name": "Archaic Petra",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "1.0.0"
     },
     {
         "id": "AubadeOfMorningstarAndMoon",
         "name": "Aubade of Morningstar and Moon",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "6.3.0"
     },
     {
         "id": "Berserker",
         "name": "Berserker",
-        "rarity": "Five"
+        "rarity": "Four",
+        "release": "1.0.0"
     },
     {
         "id": "BlizzardStrayer",
         "name": "Blizzard Strayer",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "1.2.0"
     },
     {
         "id": "BloodstainedChivalry",
         "name": "Bloodstained Chivalry",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "1.0.0"
     },
     {
         "id": "BraveHeart",
         "name": "Brave Heart",
-        "rarity": "Five"
+        "rarity": "Four",
+        "release": "1.0.0"
     },
     {
         "id": "CelestialGift",
         "name": "Celestial Gift",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "6.6.0"
     },
     {
         "id": "CrimsonWitchOfFlames",
         "name": "Crimson Witch of Flames",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "1.0.0"
     },
     {
         "id": "DeepwoodMemories",
         "name": "Deepwood Memories",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "3.0.0"
     },
     {
         "id": "DefendersWill",
         "name": "Defender's Will",
-        "rarity": "Five"
+        "rarity": "Four",
+        "release": "1.0.0"
     },
     {
         "id": "DesertPavilionChronicle",
         "name": "Desert Pavilion Chronicle",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "3.3.0"
     },
     {
         "id": "DisenchantmentInDeepShadow",
         "name": "Disenchantment in Deep Shadow",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "6.6.0"
     },
     {
         "id": "EchoesOfAnOffering",
         "name": "Echoes of an Offering",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "2.6.0"
     },
     {
         "id": "EmblemOfSeveredFate",
         "name": "Emblem of Severed Fate",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "2.0.0"
     },
     {
         "id": "FinaleOfTheDeepGalleries",
         "name": "Finale of the Deep Galleries",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "5.5.0"
     },
     {
         "id": "FlowerOfParadiseLost",
         "name": "Flower of Paradise Lost",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "3.3.0"
     },
     {
         "id": "FragmentOfHarmonicWhimsy",
         "name": "Fragment of Harmonic Whimsy",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "4.6.0"
     },
     {
         "id": "Gambler",
         "name": "Gambler",
-        "rarity": "Five"
+        "rarity": "Four",
+        "release": "1.0.0"
     },
     {
         "id": "GildedDreams",
         "name": "Gilded Dreams",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "3.0.0"
     },
     {
         "id": "GladiatorsFinale",
         "name": "Gladiator's Finale",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "1.0.0"
     },
     {
         "id": "GoldenTroupe",
         "name": "Golden Troupe",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "4.0.0"
     },
     {
         "id": "HeartOfDepth",
         "name": "Heart of Depth",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "1.2.0"
     },
     {
         "id": "HeartOfTheFurnace",
         "name": "Heart of the Furnace",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "7.0.0"
     },
     {
         "id": "HuskOfOpulentDreams",
         "name": "Husk of Opulent Dreams",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "2.3.0"
     },
     {
         "id": "Instructor",
         "name": "Instructor",
-        "rarity": "Five"
+        "rarity": "Four",
+        "release": "1.0.0"
     },
     {
         "id": "Lavawalker",
         "name": "Lavawalker",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "1.0.0"
     },
     {
         "id": "LongNightsOath",
         "name": "Long Night's Oath",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "5.5.0"
     },
     {
         "id": "LuckyDog",
         "name": "Lucky Dog",
-        "rarity": "Four"
+        "rarity": "Three",
+        "release": "1.0.0"
     },
     {
         "id": "MaidenBeloved",
         "name": "Maiden Beloved",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "1.0.0"
     },
     {
         "id": "MarechausseeHunter",
         "name": "Marechaussee Hunter",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "4.0.0"
     },
     {
         "id": "MartialArtist",
         "name": "Martial Artist",
-        "rarity": "Five"
+        "rarity": "Four",
+        "release": "1.0.0"
     },
     {
         "id": "NightOfTheSkysUnveiling",
         "name": "Night of the Sky's Unveiling",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "6.0.0"
     },
     {
         "id": "NighttimeWhispersInTheEchoingWoods",
         "name": "Nighttime Whispers in the Echoing Woods",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "4.3.0"
     },
     {
         "id": "NoblesseOblige",
         "name": "Noblesse Oblige",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "1.0.0"
     },
     {
         "id": "NymphsDream",
         "name": "Nymph's Dream",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "3.6.0"
     },
     {
         "id": "ObsidianCodex",
         "name": "Obsidian Codex",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "5.0.0"
     },
     {
         "id": "OceanHuedClam",
         "name": "Ocean-Hued Clam",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "2.3.0"
     },
     {
         "id": "PaleFlame",
         "name": "Pale Flame",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "1.5.0"
     },
     {
         "id": "PrayersForDestiny",
         "name": "Prayers for Destiny",
-        "rarity": "Five"
+        "rarity": "Four",
+        "release": "1.0.0"
     },
     {
         "id": "PrayersForIllumination",
         "name": "Prayers for Illumination",
-        "rarity": "Five"
+        "rarity": "Four",
+        "release": "1.0.0"
     },
     {
         "id": "PrayersForWisdom",
         "name": "Prayers for Wisdom",
-        "rarity": "Five"
+        "rarity": "Four",
+        "release": "1.0.0"
     },
     {
         "id": "PrayersToSpringtime",
         "name": "Prayers to Springtime",
-        "rarity": "Five"
+        "rarity": "Four",
+        "release": "1.0.0"
     },
     {
         "id": "ResolutionOfSojourner",
         "name": "Resolution of Sojourner",
-        "rarity": "Five"
+        "rarity": "Four",
+        "release": "1.0.0"
     },
     {
         "id": "RetracingBolide",
         "name": "Retracing Bolide",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "1.0.0"
     },
     {
         "id": "ScarletProof",
         "name": "Scarlet Proof",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "7.0.0"
     },
     {
         "id": "Scholar",
         "name": "Scholar",
-        "rarity": "Five"
+        "rarity": "Four",
+        "release": "1.0.0"
     },
     {
         "id": "ScrollOfTheHeroOfCinderCity",
         "name": "Scroll of the Hero of Cinder City",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "5.0.0"
     },
     {
         "id": "ShimenawasReminiscence",
         "name": "Shimenawa's Reminiscence",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "2.0.0"
     },
     {
         "id": "SilkenMoonsSerenade",
         "name": "Silken Moon's Serenade",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "6.0.0"
     },
     {
         "id": "SongOfDaysPast",
         "name": "Song of Days Past",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "4.3.0"
     },
     {
         "id": "TenacityOfTheMillelith",
         "name": "Tenacity of the Millelith",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "1.5.0"
     },
     {
         "id": "TheExile",
         "name": "The Exile",
-        "rarity": "Five"
+        "rarity": "Four",
+        "release": "1.0.0"
     },
     {
         "id": "ThunderingFury",
         "name": "Thundering Fury",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "1.0.0"
     },
     {
         "id": "Thundersoother",
         "name": "Thundersoother",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "1.0.0"
     },
     {
         "id": "TinyMiracle",
         "name": "Tiny Miracle",
-        "rarity": "Five"
+        "rarity": "Four",
+        "release": "1.0.0"
     },
     {
         "id": "TravelingDoctor",
         "name": "Traveling Doctor",
-        "rarity": "Four"
+        "rarity": "Three",
+        "release": "1.0.0"
     },
     {
         "id": "UnfinishedReverie",
         "name": "Unfinished Reverie",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "4.6.0"
     },
     {
         "id": "VermillionHereafter",
         "name": "Vermillion Hereafter",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "2.6.0"
     },
     {
         "id": "ViridescentVenerer",
         "name": "Viridescent Venerer",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "1.0.0"
     },
     {
         "id": "VourukashasGlow",
         "name": "Vourukasha's Glow",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "3.6.0"
     },
     {
         "id": "WanderersTroupe",
         "name": "Wanderer's Troupe",
-        "rarity": "Five"
+        "rarity": "Five",
+        "release": "1.0.0"
     }
 ]

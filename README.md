@@ -3,7 +3,7 @@
 The icons, wish art and game data for [soumetsu](../soumetsu).
 
 ```sh
-npm run fetch    # after a game patch: new data and originals from nanoka into assets-src/
+npm run fetch    # after a game patch: new data and originals from the Genshin Impact Wiki into assets-src/
 npm run build    # assets-src/ -> dist/ (WebPs and data JSON)
 ```
 

@@ -1,18 +1,20 @@
-// Fetches everything build.ts needs from nanoka.cc (static.nanoka.cc, the CDN behind gi.nanoka.cc),
-// and only what's missing, so rerun it after each game patch:
+// Fetches everything build.ts needs from the Genshin Impact Wiki (genshin-impact.fandom.com), and
+// only what's missing, so rerun it after each game patch:
 // `npm run fetch`
 //
-// 1. assets-src/data/*.json from the live game version's data, every ID checked against Genshin
-//    Optimizer's GOOD key lists, and the icons' originals into assets-src/icons/<kind>/. The
-//    element and weapon-type glyphs never change, so they're in assets-src/icons/ for good.
-// 2. The wish art's originals into assets-src/wish/<id>/.
+// 1. assets-src/data/*.json from the wiki's released characters, weapons and artifact sets, every
+//    ID checked against Genshin Optimizer's GOOD key lists, and the icons' originals into
+//    assets-src/icons/<kind>/. The element and weapon-type glyphs never change, so they're in
+//    assets-src/icons/ for good.
+// 2. The wish art's originals into assets-src/wish/<id>/. The Traveler's splash isn't on the wiki,
+//    so it stays in the repo.
 // 3. Where each new close-up sits in its splash, into assets-src/wish/alignments.json (see
 //    wish-art.ts). Delete a character's entry to align it again, or edit it by hand.
 // 4. The cutouts' masks, into assets-src/wish/<id>/mask.png (see wish-art.ts and segment.ts),
 //    for characters with none or whose art is now framed differently. Needs macOS. Delete a
 //    mask to cut it again, or fix it by hand.
 //
-// nanoka serves the game's images as WebP, so that's what the originals are.
+// Originals can be PNG or WebP. The wiki's are PNG.
 
 import { existsSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
@@ -36,81 +38,54 @@ import {
     writeMasks
 } from './wish-art.ts';
 
-const NANOKA = 'https://static.nanoka.cc';
-const ASSETS = `${NANOKA}/assets/gi`;
 const GO_CONSTS =
     'https://raw.githubusercontent.com/frzyc/genshin-optimizer/master/libs/gi/consts/src';
+const WIKI = 'https://genshin-impact.fandom.com/api.php';
 
 const DATA_DIR = join(ROOT, 'assets-src/data');
 const ICON_DIR = join(ROOT, 'assets-src/icons');
 
 const ELEMENTS = ['Anemo', 'Geo', 'Electro', 'Dendro', 'Hydro', 'Pyro', 'Cryo'];
+const WEAPON_TYPES = ['Sword', 'Claymore', 'Polearm', 'Bow', 'Catalyst'];
 // The data names rarities as words, so the site can key them in display order (JS lists integer
 // keys ascending).
-const STARS: Record<number, string> = { 1: 'One', 2: 'Two', 3: 'Three', 4: 'Four', 5: 'Five' };
-const RARITIES: Record<string, string> = {
-    QUALITY_ORANGE: 'Five',
-    // Aloy.
-    QUALITY_ORANGE_SP: 'Five',
-    QUALITY_PURPLE: 'Four'
-};
-const WEAPON_TYPES: Record<string, string> = {
-    WEAPON_SWORD_ONE_HAND: 'Sword',
-    WEAPON_CLAYMORE: 'Claymore',
-    WEAPON_POLE: 'Polearm',
-    WEAPON_BOW: 'Bow',
-    WEAPON_CATALYST: 'Catalyst'
-};
-// nanoka dates every Traveler 1970-01-01, so each gets the date nanoka gives its version's first
-// banner, and Klee at launch, though her first banner came a month later.
-const RELEASES: Record<string, string> = {
-    TravelerAnemo: '2020-09-15',
-    TravelerGeo: '2020-09-15',
-    Klee: '2020-10-20',
-    TravelerElectro: '2021-07-21',
-    TravelerDendro: '2022-08-24',
-    TravelerHydro: '2023-08-15',
-    TravelerPyro: '2024-12-31',
-    TravelerCryo: '2026-08-11'
-};
+const STARS: Record<string, string> = { 1: 'One', 2: 'Two', 3: 'Three', 4: 'Four', 5: 'Five' };
 
-interface NanokaCharacter {
-    en: string;
-    /** `UI_AvatarIcon_<name>`; the wish art is `UI_Gacha_AvatarImg_<name>` and `…AvatarIcon_<name>`. */
-    icon: string;
-    rank: string;
-    weapon: string;
-    element: string;
-    /** "2021-03-02 18:00:00", in the game's UTC+8. */
-    release: string;
+interface WikiPage {
+    title: string;
+    revisions?: { slots: { main: { content: string } } }[];
+    imageinfo?: { url: string }[];
 }
-interface NanokaWeapon {
-    en: string;
-    icon: string;
-    rank: number;
-    type: string;
+interface WikiQuery {
+    query: { redirects?: { from: string; to: string }[]; pages: WikiPage[] };
 }
-interface NanokaArtifact {
-    icon: string;
-    /** The rarities the set drops in. */
-    rank: number[];
-    /** The set's pieces, each with the set's name. */
-    set: Record<string, { name: { en: string } }>;
+interface WikiCategory {
+    query: { categorymembers: { title: string }[] };
+    continue?: Record<string, string>;
+}
+interface Version {
+    /** "6.0", which the wiki names Luna I. */
+    number: string;
+    /** The update's. */
+    date: string;
+    /** The names each event wish phase's banners featured. */
+    phases: string[][];
 }
 
 interface Entry {
     id: string;
+    name: string;
     [field: string]: unknown;
 }
-/** An image to save as `<file>.webp`. */
+/** The wiki's file `image`, to save as `<file>.png`. */
 interface Download {
-    url: string;
+    image: string;
     file: string;
 }
 interface WishDownload {
     id: string;
     splash: string;
-    closeUp?: string;
+    closeUp: string;
 }
 
 async function fetchOk(url: string): Promise<Response> {
@@ -136,6 +111,123 @@ async function goodKeys(file: string, arrayNames: string[]): Promise<Set<string>
     return keys;
 }
 
+/** Each page the wiki has, by the title asked for, following redirects. */
+async function wikiQuery(
+    titles: string[],
+    props: Record<string, string>
+): Promise<Map<string, WikiPage>> {
+    const pages = new Map<string, WikiPage>();
+    // The API takes up to 50 titles a request.
+    for (let i = 0; i < titles.length; i += 50) {
+        const chunk = titles.slice(i, i + 50);
+        const params = new URLSearchParams({
+            ...props,
+            action: 'query',
+            redirects: '1',
+            format: 'json',
+            formatversion: '2',
+            titles: chunk.join('|')
+        });
+        const { query } = await json<WikiQuery>(`${WIKI}?${params}`);
+        const redirects = new Map(query.redirects?.map((r) => [r.from, r.to]));
+        const byTitle = new Map(query.pages.map((p) => [p.title, p]));
+        for (const title of chunk) {
+            const page = byTitle.get(redirects.get(title) ?? title);
+            if (page !== undefined) pages.set(title, page);
+        }
+    }
+    return pages;
+}
+
+/** The wikitext of each page the wiki has, by title. */
+async function wikiPages(titles: string[]): Promise<Map<string, string>> {
+    const pages = await wikiQuery(titles, {
+        prop: 'revisions',
+        rvprop: 'content',
+        rvslots: 'main'
+    });
+    const texts = new Map<string, string>();
+    for (const [title, page] of pages) {
+        if (page.revisions !== undefined) texts.set(title, page.revisions[0].slots.main.content);
+    }
+    return texts;
+}
+
+/** The URL of each image the wiki has, by file name. */
+async function wikiImages(names: string[]): Promise<Map<string, string>> {
+    const files = await wikiQuery(
+        names.map((name) => `File:${name}`),
+        { prop: 'imageinfo', iiprop: 'url' }
+    );
+    const urls = new Map<string, string>();
+    for (const name of names) {
+        const url = files.get(`File:${name}`)?.imageinfo?.[0].url;
+        if (url === undefined) continue;
+        // Fandom's image server sends a lossy WebP copy unless asked for the original.
+        const original = new URL(url);
+        original.searchParams.set('format', 'original');
+        urls.set(name, original.href);
+    }
+    return urls;
+}
+
+/** The titles of a category's articles. */
+async function wikiCategory(name: string): Promise<string[]> {
+    const titles: string[] = [];
+    let next: Record<string, string> | undefined = {};
+    while (next !== undefined) {
+        const params = new URLSearchParams({
+            ...next,
+            action: 'query',
+            list: 'categorymembers',
+            cmtitle: `Category:${name}`,
+            cmnamespace: '0',
+            cmlimit: '500',
+            format: 'json',
+            formatversion: '2'
+        });
+        const page: WikiCategory = await json<WikiCategory>(`${WIKI}?${params}`);
+        titles.push(...page.query.categorymembers.map((member) => member.title));
+        next = page.continue;
+    }
+    return titles;
+}
+
+/**
+ * The value on a template's `|<name> = <value>` line. A field can follow a comment or a tag on its
+ * line: `<!--Playable Character Information-->|quality = 5`, `</gallery>|type = Polearm`.
+ */
+function wikiField(text: string, name: string): string | undefined {
+    const line = new RegExp(`(?:^|>)[ \\t]*\\|[ \\t]*${name}[ \\t]*=[ \\t]*(\\S.*?)[ \\t]*$`, 'm');
+    return text.match(line)?.[1];
+}
+
+// A version page's Event Wishes list each phase as `* Phase 1` (or `I`), then a line per banner,
+// `** [[<banner>|…]] (<featured>)`, featuring `[[Zhongli]] & Yanfei` or `[[Arataki Itto]], Kuki
+// Shinobu`. 2.8's are headed New Event Wishes, and an upcoming version's may not be listed yet.
+function parseVersion(title: string, text: string): Version {
+    const wishes = text.split(/^;/m).find((block) => /^(New )?Event Wishes\s*\n/.test(block)) ?? '';
+    const phases = wishes
+        .split(/^\*\s*Phase\b.*$/m)
+        .slice(1)
+        .map((phase) =>
+            [...phase.matchAll(/^\*\*[^*].*\((.*)\)\s*$/gm)].flatMap(([, featured]) =>
+                featured.replace(/\[\[(?:[^|\]]*\|)?([^\]]*)\]\]/g, '$1').split(/\s*[&,]\s*/)
+            )
+        );
+    const number = wikiField(text, 'number') ?? wikiField(text, 'version');
+    const date = wikiField(text, 'date');
+    if (number === undefined || date === undefined) throw new Error(`${title}: no version or date`);
+    return { number, date, phases };
+}
+
+// A releaseDate is "2021-07-21", or "2025-09-10 11:00:00 GMT+8", in the game's UTC+8.
+function released(date: string | undefined, title: string): boolean {
+    if (date === undefined) throw new Error(`${title}: no release date on the wiki`);
+    const [day, time = '00:00:00'] = date.split(' ');
+    return Date.parse(`${day}T${time}+08:00`) <= Date.now();
+}
+
 // "Staff of Homa" → StaffOfHoma, "Gladiator's Finale" → GladiatorsFinale
 function toGoodKey(name: string): string {
     return name
@@ -145,34 +237,40 @@ function toGoodKey(name: string): string {
         .replace(/[^A-Za-z0-9]/g, '');
 }
 
-function lookup<T>(table: Record<string, T>, value: string, context: string): T {
-    const mapped = table[value];
-    if (!mapped) throw new Error(`${context}: unknown value ${JSON.stringify(value)}`);
-    return mapped;
+function lookup<T>(table: Record<string, T>, value: string | undefined, context: string): T {
+    if (value === undefined || !(value in table)) {
+        throw new Error(`${context}: unknown value ${JSON.stringify(value)}`);
+    }
+    return table[value];
 }
 
+function oneOf(values: string[], value: string | undefined, context: string): string {
+    if (value === undefined || !values.includes(value)) {
+        throw new Error(`${context}: unknown value ${JSON.stringify(value)}`);
+    }
+    return value;
+}
+
+/** The images the wiki doesn't have (yet). */
 const missing: string[] = [];
 
-/** The image's bytes, or undefined (noted in `missing`) when it isn't there. */
-async function download(url: string): Promise<Buffer | undefined> {
-    const res = await fetch(url);
-    if (res.status === 404) {
-        missing.push(url);
-        return;
-    }
-    if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
-    return Buffer.from(await res.arrayBuffer());
+async function download(url: string): Promise<Buffer> {
+    return Buffer.from(await (await fetchOk(url)).arrayBuffer());
 }
 
-/** Saves the images not on disk yet (as .png or .webp), and returns how many. */
+/** Saves the images not on disk yet, and returns how many. */
 async function saveImages(list: Download[]): Promise<number> {
     const queue = list.filter((d) => !image(dirname(d.file), basename(d.file)));
+    const urls = await wikiImages(queue.map((d) => d.image));
     let saved = 0;
     const worker = async () => {
         for (let d = queue.shift(); d; d = queue.shift()) {
-            const bytes = await download(d.url);
-            if (!bytes) continue;
-            await writeFile(`${d.file}.webp`, bytes);
+            const url = urls.get(d.image);
+            if (url === undefined) {
+                missing.push(d.image);
+                continue;
+            }
+            await writeFile(`${d.file}.png`, await download(url));
             saved++;
         }
     };
@@ -187,20 +285,33 @@ async function writeJson(name: string, entries: Entry[]) {
 
 // Game data and icons.
 
-const manifest = await json<{ gi: { live: string } }>(`${NANOKA}/manifest.json`);
-const version = manifest.gi.live;
-const data = `${NANOKA}/gi/${version}`;
-const [characters, weapons, artifacts, goCharacters, goWeapons, goArtifacts] = await Promise.all([
-    json<Record<string, NanokaCharacter>>(`${data}/character.json`),
-    json<Record<string, NanokaWeapon>>(`${data}/weapon.json`),
-    json<Record<string, NanokaArtifact>>(`${data}/artifact.json`),
+const [
+    characterTitles,
+    weaponTitles,
+    setTitles,
+    unreleased,
+    questWeapons,
+    goCharacters,
+    goWeapons,
+    goArtifacts
+] = await Promise.all([
+    wikiCategory('Playable Characters'),
+    wikiCategory('Weapons'),
+    wikiCategory('Artifact Sets'),
+    wikiCategory('Unreleased Content'),
+    wikiCategory('Quest-Exclusive Weapons'),
     goodKeys('character.ts', ['nonTravelerCharacterKeys', 'allTravelerKeys']),
     goodKeys(
         'weapon.ts',
-        ['Sword', 'Claymore', 'Polearm', 'Bow', 'Catalyst'].map((t) => `allWeapon${t}Keys`)
+        WEAPON_TYPES.map((t) => `allWeapon${t}Keys`)
     ),
     goodKeys('artifact.ts', ['allArtifactSetKeys'])
 ]);
+// Unreleased Content is the beta's weapons, and quests lend variants of weapons of their own.
+const skipped = new Set([...unreleased, ...questWeapons]);
+const pages = await wikiPages(
+    [...characterTitles, ...weaponTitles, ...setTitles].filter((title) => !skipped.has(title))
+);
 
 const characterEntries: Entry[] = [];
 const weaponEntries: Entry[] = [];
@@ -216,61 +327,111 @@ function add(list: Entry[], entry: Entry, goKeys: Set<string>, kind: string, ico
         return;
     }
     list.push(entry);
-    icons.push({ url: `${ASSETS}/${icon}.webp`, file: join(ICON_DIR, kind, entry.id) });
+    icons.push({ image: icon, file: join(ICON_DIR, kind, entry.id) });
 }
 
-const now = Date.now();
+// Release versions, as "2.0.1": the version an entry's Change History on the wiki starts at, then
+// the event wish phase that first featured it, or 0 for what came with the update itself, as every
+// set did. A version's page lists the characters its banners featured, phase by phase. A character
+// whose releaseDate is the update's came with it even if a later phase featured them, as Aino did
+// through 6.0's story quest. Weapon banners aren't listed, but every version has had two weapon
+// phases, 1.3's included, so an event wish weapon is from the first if it came out on the update.
+const changeVersion = (page: string): string | undefined =>
+    page.match(/\{\{Change History\|([^|}]+)/)?.[1].trim();
+const versionNames = [...new Set([...pages.values()].map(changeVersion))].filter(
+    (name) => name !== undefined
+);
+const versionPages = await wikiPages(versionNames.map((name) => `Version/${name}`));
+const versions = new Map<string, Version>();
+for (const name of versionNames) {
+    const text = versionPages.get(`Version/${name}`);
+    if (text !== undefined) versions.set(name, parseVersion(`Version/${name}`, text));
+}
+const versionOf = (title: string, page: string): Version => {
+    const name = changeVersion(page);
+    if (name !== undefined && versions.has(name)) return versions.get(name)!;
+    throw new Error(`${title}: no version on the wiki`);
+};
+const releasedOnUpdate = (page: string, version: Version): boolean =>
+    wikiField(page, 'releaseDate')?.startsWith(version.date) === true;
+
+// An element's Traveler page has no weapon or rarity: the Traveler's own page has them.
+const travelerPage = pages.get('Traveler');
+if (travelerPage === undefined) throw new Error('Traveler: not on the wiki');
 const wish: WishDownload[] = [];
-for (const c of Object.values(characters)) {
-    if (Date.parse(`${c.release.replace(' ', 'T')}+08:00`) > now) continue;
-    // Manekin and Manekina have no GOOD key, and the element-less Travelers are placeholders.
-    if (c.en.startsWith('Manekin') || !ELEMENTS.includes(c.element)) continue;
-    const traveler = c.en === 'Traveler';
-    // Each Traveler element is listed once per twin. Keep one, with Lumine's icon.
-    if (traveler && !c.icon.endsWith('PlayerGirl')) continue;
-    const id = traveler ? `Traveler${c.element}` : toGoodKey(c.en);
-    const release = RELEASES[id] ?? c.release.slice(0, 10);
-    if (release.startsWith('1970')) throw new Error(`${id}: no release date, add one to RELEASES`);
+for (const title of characterTitles) {
+    const page = pages.get(title);
+    if (page === undefined) continue;
+    // The Traveler's and the Manekins' own pages have no element, or an adaptive one.
+    const element = wikiField(page, 'element');
+    if (element === undefined || !ELEMENTS.includes(element)) continue;
+    if (!released(wikiField(page, 'releaseDate'), title)) continue;
+    const traveler = page.includes('{{Traveler Infobox');
+    const info = traveler ? travelerPage : page;
+    const version = versionOf(title, page);
+    if (version.phases.length === 0) throw new Error(`${title}: no event wishes for its version`);
+    const index = version.phases.findIndex((featured) => featured.includes(title));
+    let phase = 0;
+    if (index === 0) phase = 1;
+    if (index > 0 && !releasedOnUpdate(page, version)) phase = index + 1;
+    const id = traveler ? `Traveler${element}` : toGoodKey(title);
     const entry = {
         id,
-        name: traveler ? `${c.element} Traveler` : c.en,
-        element: c.element,
-        weaponType: lookup(WEAPON_TYPES, c.weapon, c.en),
-        rarity: lookup(RARITIES, c.rank, c.en),
-        release
+        name: traveler ? `${element} Traveler` : title,
+        element,
+        weaponType: oneOf(WEAPON_TYPES, wikiField(info, 'weapon'), title),
+        rarity: lookup(STARS, wikiField(info, 'quality'), title),
+        release: `${version.number}.${phase}`
     };
-    add(characterEntries, entry, goCharacters, 'characters', c.icon);
-    const name = c.icon.replace('UI_AvatarIcon_', '');
-    // Every Traveler shares Lumine's splash, framed from her figure as there's no close-up.
-    if (traveler) {
-        if (c.element === 'Anemo') {
-            wish.push({ id: 'Traveler', splash: `${ASSETS}/UI_Gacha_AvatarImg_${name}.webp` });
-        }
-    } else if (goCharacters.has(entry.id)) {
-        wish.push({
-            id: entry.id,
-            splash: `${ASSETS}/UI_Gacha_AvatarImg_${name}.webp`,
-            closeUp: `${ASSETS}/UI_Gacha_AvatarIcon_${name}.webp`
-        });
+    // Every Traveler has Lumine's icon.
+    const icon = traveler ? 'Lumine Icon.png' : `${title} Icon.png`;
+    add(characterEntries, entry, goCharacters, 'characters', icon);
+    if (!traveler && goCharacters.has(id)) {
+        wish.push({ id, splash: `${title} Wish.png`, closeUp: `${title} Multi Wish.png` });
     }
 }
 
-for (const w of Object.values(weapons)) {
-    // Weapon skins are listed as weapons, with the type ITEM_TPS_WEAPON.
-    if (!(w.type in WEAPON_TYPES)) continue;
+for (const title of weaponTitles) {
+    const page = pages.get(title);
+    // The category also has pages about weapons, and the ores that level them.
+    if (page === undefined || !page.includes('{{Weapon Infobox')) continue;
+    if (!released(wikiField(page, 'releaseDate'), title)) continue;
+    const version = versionOf(title, page);
+    const eventWish = wikiField(page, 'obtain')?.includes('Event Wish') === true;
+    const onUpdate = releasedOnUpdate(page, version);
+    let phase = 0;
+    if (eventWish && onUpdate) phase = 1;
+    if (eventWish && !onUpdate) phase = 2;
     const entry = {
-        id: toGoodKey(w.en),
-        name: w.en,
-        type: lookup(WEAPON_TYPES, w.type, w.en),
-        rarity: STARS[w.rank]
+        id: toGoodKey(title),
+        name: title,
+        type: oneOf(WEAPON_TYPES, wikiField(page, 'type'), title),
+        rarity: lookup(STARS, wikiField(page, 'quality'), title),
+        release: `${version.number}.${phase}`
     };
-    add(weaponEntries, entry, goWeapons, 'weapons', w.icon);
+    add(weaponEntries, entry, goWeapons, 'weapons', `Weapon ${title}.png`);
 }
 
-for (const s of Object.values(artifacts)) {
-    const name = Object.values(s.set)[0].name.en;
-    const entry = { id: toGoodKey(name), name, rarity: STARS[Math.max(...s.rank)] };
-    add(artifactEntries, entry, goArtifacts, 'artifacts', s.icon);
+for (const title of setTitles) {
+    const page = pages.get(title);
+    if (page === undefined || !page.includes('{{Artifact Set Infobox')) continue;
+    // A set's rarity is the highest it drops at, from its `|source<stars>.<n> = <where>` lines.
+    // Initiate, worn only by trial characters, has just `|source1.1 = Unobtainable`.
+    const drops = [...page.matchAll(/\|\s*source(\d)\.\d+\s*=\s*(.*)/g)]
+        .filter(([, , where]) => where.trim() !== 'Unobtainable')
+        .map(([, stars]) => Number(stars));
+    if (drops.length === 0) continue;
+    const version = versionOf(title, page);
+    if (!released(version.date, title)) continue;
+    const entry = {
+        id: toGoodKey(title),
+        name: title,
+        rarity: lookup(STARS, String(Math.max(...drops)), title),
+        release: `${version.number}.0`
+    };
+    // Its icon is its flower, or its circlet for the sets that are only circlets.
+    const piece = wikiField(page, 'flower') ?? wikiField(page, 'circlet');
+    add(artifactEntries, entry, goArtifacts, 'artifacts', `Item ${piece}.png`);
 }
 
 for (const kind of ['characters', 'weapons', 'artifacts']) {
@@ -284,7 +445,7 @@ await writeJson('weapons.json', weaponEntries);
 await writeJson('artifacts.json', artifactEntries);
 
 console.log(
-    `nanoka ${version}: ${characterEntries.length} characters, ${weaponEntries.length} weapons, ` +
+    `${characterEntries.length} characters, ${weaponEntries.length} weapons, ` +
         `${artifactEntries.length} artifact sets; ${iconsSaved} new icons`
 );
 if (notInGood.length > 0) {
@@ -295,19 +456,25 @@ if (notInGood.length > 0) {
 // The wish art. A character's files are saved together or not at all, since a folder with only a
 // splash is taken for the Traveler's.
 
+const wishQueue = wish.filter((d) => !image(join(WISH_SRC_DIR, d.id), 'splash'));
+const wishUrls = await wikiImages(wishQueue.flatMap((d) => [d.splash, d.closeUp]));
 let wishSaved = 0;
 const wishWorker = async () => {
-    for (let d = wish.shift(); d; d = wish.shift()) {
+    for (let d = wishQueue.shift(); d; d = wishQueue.shift()) {
+        const splash = wishUrls.get(d.splash);
+        const closeUp = wishUrls.get(d.closeUp);
+        if (splash === undefined || closeUp === undefined) {
+            missing.push(...[d.splash, d.closeUp].filter((name) => !wishUrls.has(name)));
+            continue;
+        }
         const dir = join(WISH_SRC_DIR, d.id);
-        if (image(dir, 'splash')) continue;
-        const [splash, closeUp] = await Promise.all([
-            download(d.splash),
-            d.closeUp && download(d.closeUp)
+        const [splashBytes, closeUpBytes] = await Promise.all([
+            download(splash),
+            download(closeUp)
         ]);
-        if (!splash || (d.closeUp && !closeUp)) continue;
         await mkdir(dir, { recursive: true });
-        await writeFile(join(dir, 'splash.webp'), splash);
-        if (closeUp) await writeFile(join(dir, 'closeup.webp'), closeUp);
+        await writeFile(join(dir, 'splash.png'), splashBytes);
+        await writeFile(join(dir, 'closeup.png'), closeUpBytes);
         wishSaved++;
     }
 };
@@ -315,8 +482,8 @@ await Promise.all(Array.from({ length: 8 }, wishWorker));
 console.log(`Wish art: ${wishSaved} characters saved`);
 
 if (missing.length > 0) {
-    console.warn('Not on nanoka (rerun later):');
-    for (const url of missing) console.warn(`  ${url}`);
+    console.warn('Not on the wiki (rerun later):');
+    for (const name of missing) console.warn(`  ${name}`);
 }
 
 // The close-ups' alignments.
