@@ -1,317 +1,317 @@
 [
-	{
-		"id": "ADayCarvedFromRisingWinds",
-		"name": "A Day Carved From Rising Winds",
-		"rarity": "Five"
-	},
-	{
-		"id": "Adventurer",
-		"name": "Adventurer",
-		"rarity": "Four"
-	},
-	{
-		"id": "ArchaicPetra",
-		"name": "Archaic Petra",
-		"rarity": "Five"
-	},
-	{
-		"id": "AubadeOfMorningstarAndMoon",
-		"name": "Aubade of Morningstar and Moon",
-		"rarity": "Five"
-	},
-	{
-		"id": "Berserker",
-		"name": "Berserker",
-		"rarity": "Five"
-	},
-	{
-		"id": "BlizzardStrayer",
-		"name": "Blizzard Strayer",
-		"rarity": "Five"
-	},
-	{
-		"id": "BloodstainedChivalry",
-		"name": "Bloodstained Chivalry",
-		"rarity": "Five"
-	},
-	{
-		"id": "BraveHeart",
-		"name": "Brave Heart",
-		"rarity": "Five"
-	},
-	{
-		"id": "CelestialGift",
-		"name": "Celestial Gift",
-		"rarity": "Five"
-	},
-	{
-		"id": "CrimsonWitchOfFlames",
-		"name": "Crimson Witch of Flames",
-		"rarity": "Five"
-	},
-	{
-		"id": "DeepwoodMemories",
-		"name": "Deepwood Memories",
-		"rarity": "Five"
-	},
-	{
-		"id": "DefendersWill",
-		"name": "Defender's Will",
-		"rarity": "Five"
-	},
-	{
-		"id": "DesertPavilionChronicle",
-		"name": "Desert Pavilion Chronicle",
-		"rarity": "Five"
-	},
-	{
-		"id": "DisenchantmentInDeepShadow",
-		"name": "Disenchantment in Deep Shadow",
-		"rarity": "Five"
-	},
-	{
-		"id": "EchoesOfAnOffering",
-		"name": "Echoes of an Offering",
-		"rarity": "Five"
-	},
-	{
-		"id": "EmblemOfSeveredFate",
-		"name": "Emblem of Severed Fate",
-		"rarity": "Five"
-	},
-	{
-		"id": "FinaleOfTheDeepGalleries",
-		"name": "Finale of the Deep Galleries",
-		"rarity": "Five"
-	},
-	{
-		"id": "FlowerOfParadiseLost",
-		"name": "Flower of Paradise Lost",
-		"rarity": "Five"
-	},
-	{
-		"id": "FragmentOfHarmonicWhimsy",
-		"name": "Fragment of Harmonic Whimsy",
-		"rarity": "Five"
-	},
-	{
-		"id": "Gambler",
-		"name": "Gambler",
-		"rarity": "Five"
-	},
-	{
-		"id": "GildedDreams",
-		"name": "Gilded Dreams",
-		"rarity": "Five"
-	},
-	{
-		"id": "GladiatorsFinale",
-		"name": "Gladiator's Finale",
-		"rarity": "Five"
-	},
-	{
-		"id": "GoldenTroupe",
-		"name": "Golden Troupe",
-		"rarity": "Five"
-	},
-	{
-		"id": "HeartOfDepth",
-		"name": "Heart of Depth",
-		"rarity": "Five"
-	},
-	{
-		"id": "HeartOfTheFurnace",
-		"name": "Heart of the Furnace",
-		"rarity": "Five"
-	},
-	{
-		"id": "HuskOfOpulentDreams",
-		"name": "Husk of Opulent Dreams",
-		"rarity": "Five"
-	},
-	{
-		"id": "Instructor",
-		"name": "Instructor",
-		"rarity": "Five"
-	},
-	{
-		"id": "Lavawalker",
-		"name": "Lavawalker",
-		"rarity": "Five"
-	},
-	{
-		"id": "LongNightsOath",
-		"name": "Long Night's Oath",
-		"rarity": "Five"
-	},
-	{
-		"id": "LuckyDog",
-		"name": "Lucky Dog",
-		"rarity": "Four"
-	},
-	{
-		"id": "MaidenBeloved",
-		"name": "Maiden Beloved",
-		"rarity": "Five"
-	},
-	{
-		"id": "MarechausseeHunter",
-		"name": "Marechaussee Hunter",
-		"rarity": "Five"
-	},
-	{
-		"id": "MartialArtist",
-		"name": "Martial Artist",
-		"rarity": "Five"
-	},
-	{
-		"id": "NightOfTheSkysUnveiling",
-		"name": "Night of the Sky's Unveiling",
-		"rarity": "Five"
-	},
-	{
-		"id": "NighttimeWhispersInTheEchoingWoods",
-		"name": "Nighttime Whispers in the Echoing Woods",
-		"rarity": "Five"
-	},
-	{
-		"id": "NoblesseOblige",
-		"name": "Noblesse Oblige",
-		"rarity": "Five"
-	},
-	{
-		"id": "NymphsDream",
-		"name": "Nymph's Dream",
-		"rarity": "Five"
-	},
-	{
-		"id": "ObsidianCodex",
-		"name": "Obsidian Codex",
-		"rarity": "Five"
-	},
-	{
-		"id": "OceanHuedClam",
-		"name": "Ocean-Hued Clam",
-		"rarity": "Five"
-	},
-	{
-		"id": "PaleFlame",
-		"name": "Pale Flame",
-		"rarity": "Five"
-	},
-	{
-		"id": "PrayersForDestiny",
-		"name": "Prayers for Destiny",
-		"rarity": "Five"
-	},
-	{
-		"id": "PrayersForIllumination",
-		"name": "Prayers for Illumination",
-		"rarity": "Five"
-	},
-	{
-		"id": "PrayersForWisdom",
-		"name": "Prayers for Wisdom",
-		"rarity": "Five"
-	},
-	{
-		"id": "PrayersToSpringtime",
-		"name": "Prayers to Springtime",
-		"rarity": "Five"
-	},
-	{
-		"id": "ResolutionOfSojourner",
-		"name": "Resolution of Sojourner",
-		"rarity": "Five"
-	},
-	{
-		"id": "RetracingBolide",
-		"name": "Retracing Bolide",
-		"rarity": "Five"
-	},
-	{
-		"id": "ScarletProof",
-		"name": "Scarlet Proof",
-		"rarity": "Five"
-	},
-	{
-		"id": "Scholar",
-		"name": "Scholar",
-		"rarity": "Five"
-	},
-	{
-		"id": "ScrollOfTheHeroOfCinderCity",
-		"name": "Scroll of the Hero of Cinder City",
-		"rarity": "Five"
-	},
-	{
-		"id": "ShimenawasReminiscence",
-		"name": "Shimenawa's Reminiscence",
-		"rarity": "Five"
-	},
-	{
-		"id": "SilkenMoonsSerenade",
-		"name": "Silken Moon's Serenade",
-		"rarity": "Five"
-	},
-	{
-		"id": "SongOfDaysPast",
-		"name": "Song of Days Past",
-		"rarity": "Five"
-	},
-	{
-		"id": "TenacityOfTheMillelith",
-		"name": "Tenacity of the Millelith",
-		"rarity": "Five"
-	},
-	{
-		"id": "TheExile",
-		"name": "The Exile",
-		"rarity": "Five"
-	},
-	{
-		"id": "ThunderingFury",
-		"name": "Thundering Fury",
-		"rarity": "Five"
-	},
-	{
-		"id": "Thundersoother",
-		"name": "Thundersoother",
-		"rarity": "Five"
-	},
-	{
-		"id": "TinyMiracle",
-		"name": "Tiny Miracle",
-		"rarity": "Five"
-	},
-	{
-		"id": "TravelingDoctor",
-		"name": "Traveling Doctor",
-		"rarity": "Four"
-	},
-	{
-		"id": "UnfinishedReverie",
-		"name": "Unfinished Reverie",
-		"rarity": "Five"
-	},
-	{
-		"id": "VermillionHereafter",
-		"name": "Vermillion Hereafter",
-		"rarity": "Five"
-	},
-	{
-		"id": "ViridescentVenerer",
-		"name": "Viridescent Venerer",
-		"rarity": "Five"
-	},
-	{
-		"id": "VourukashasGlow",
-		"name": "Vourukasha's Glow",
-		"rarity": "Five"
-	},
-	{
-		"id": "WanderersTroupe",
-		"name": "Wanderer's Troupe",
-		"rarity": "Five"
-	}
+    {
+        "id": "ADayCarvedFromRisingWinds",
+        "name": "A Day Carved From Rising Winds",
+        "rarity": "Five"
+    },
+    {
+        "id": "Adventurer",
+        "name": "Adventurer",
+        "rarity": "Four"
+    },
+    {
+        "id": "ArchaicPetra",
+        "name": "Archaic Petra",
+        "rarity": "Five"
+    },
+    {
+        "id": "AubadeOfMorningstarAndMoon",
+        "name": "Aubade of Morningstar and Moon",
+        "rarity": "Five"
+    },
+    {
+        "id": "Berserker",
+        "name": "Berserker",
+        "rarity": "Five"
+    },
+    {
+        "id": "BlizzardStrayer",
+        "name": "Blizzard Strayer",
+        "rarity": "Five"
+    },
+    {
+        "id": "BloodstainedChivalry",
+        "name": "Bloodstained Chivalry",
+        "rarity": "Five"
+    },
+    {
+        "id": "BraveHeart",
+        "name": "Brave Heart",
+        "rarity": "Five"
+    },
+    {
+        "id": "CelestialGift",
+        "name": "Celestial Gift",
+        "rarity": "Five"
+    },
+    {
+        "id": "CrimsonWitchOfFlames",
+        "name": "Crimson Witch of Flames",
+        "rarity": "Five"
+    },
+    {
+        "id": "DeepwoodMemories",
+        "name": "Deepwood Memories",
+        "rarity": "Five"
+    },
+    {
+        "id": "DefendersWill",
+        "name": "Defender's Will",
+        "rarity": "Five"
+    },
+    {
+        "id": "DesertPavilionChronicle",
+        "name": "Desert Pavilion Chronicle",
+        "rarity": "Five"
+    },
+    {
+        "id": "DisenchantmentInDeepShadow",
+        "name": "Disenchantment in Deep Shadow",
+        "rarity": "Five"
+    },
+    {
+        "id": "EchoesOfAnOffering",
+        "name": "Echoes of an Offering",
+        "rarity": "Five"
+    },
+    {
+        "id": "EmblemOfSeveredFate",
+        "name": "Emblem of Severed Fate",
+        "rarity": "Five"
+    },
+    {
+        "id": "FinaleOfTheDeepGalleries",
+        "name": "Finale of the Deep Galleries",
+        "rarity": "Five"
+    },
+    {
+        "id": "FlowerOfParadiseLost",
+        "name": "Flower of Paradise Lost",
+        "rarity": "Five"
+    },
+    {
+        "id": "FragmentOfHarmonicWhimsy",
+        "name": "Fragment of Harmonic Whimsy",
+        "rarity": "Five"
+    },
+    {
+        "id": "Gambler",
+        "name": "Gambler",
+        "rarity": "Five"
+    },
+    {
+        "id": "GildedDreams",
+        "name": "Gilded Dreams",
+        "rarity": "Five"
+    },
+    {
+        "id": "GladiatorsFinale",
+        "name": "Gladiator's Finale",
+        "rarity": "Five"
+    },
+    {
+        "id": "GoldenTroupe",
+        "name": "Golden Troupe",
+        "rarity": "Five"
+    },
+    {
+        "id": "HeartOfDepth",
+        "name": "Heart of Depth",
+        "rarity": "Five"
+    },
+    {
+        "id": "HeartOfTheFurnace",
+        "name": "Heart of the Furnace",
+        "rarity": "Five"
+    },
+    {
+        "id": "HuskOfOpulentDreams",
+        "name": "Husk of Opulent Dreams",
+        "rarity": "Five"
+    },
+    {
+        "id": "Instructor",
+        "name": "Instructor",
+        "rarity": "Five"
+    },
+    {
+        "id": "Lavawalker",
+        "name": "Lavawalker",
+        "rarity": "Five"
+    },
+    {
+        "id": "LongNightsOath",
+        "name": "Long Night's Oath",
+        "rarity": "Five"
+    },
+    {
+        "id": "LuckyDog",
+        "name": "Lucky Dog",
+        "rarity": "Four"
+    },
+    {
+        "id": "MaidenBeloved",
+        "name": "Maiden Beloved",
+        "rarity": "Five"
+    },
+    {
+        "id": "MarechausseeHunter",
+        "name": "Marechaussee Hunter",
+        "rarity": "Five"
+    },
+    {
+        "id": "MartialArtist",
+        "name": "Martial Artist",
+        "rarity": "Five"
+    },
+    {
+        "id": "NightOfTheSkysUnveiling",
+        "name": "Night of the Sky's Unveiling",
+        "rarity": "Five"
+    },
+    {
+        "id": "NighttimeWhispersInTheEchoingWoods",
+        "name": "Nighttime Whispers in the Echoing Woods",
+        "rarity": "Five"
+    },
+    {
+        "id": "NoblesseOblige",
+        "name": "Noblesse Oblige",
+        "rarity": "Five"
+    },
+    {
+        "id": "NymphsDream",
+        "name": "Nymph's Dream",
+        "rarity": "Five"
+    },
+    {
+        "id": "ObsidianCodex",
+        "name": "Obsidian Codex",
+        "rarity": "Five"
+    },
+    {
+        "id": "OceanHuedClam",
+        "name": "Ocean-Hued Clam",
+        "rarity": "Five"
+    },
+    {
+        "id": "PaleFlame",
+        "name": "Pale Flame",
+        "rarity": "Five"
+    },
+    {
+        "id": "PrayersForDestiny",
+        "name": "Prayers for Destiny",
+        "rarity": "Five"
+    },
+    {
+        "id": "PrayersForIllumination",
+        "name": "Prayers for Illumination",
+        "rarity": "Five"
+    },
+    {
+        "id": "PrayersForWisdom",
+        "name": "Prayers for Wisdom",
+        "rarity": "Five"
+    },
+    {
+        "id": "PrayersToSpringtime",
+        "name": "Prayers to Springtime",
+        "rarity": "Five"
+    },
+    {
+        "id": "ResolutionOfSojourner",
+        "name": "Resolution of Sojourner",
+        "rarity": "Five"
+    },
+    {
+        "id": "RetracingBolide",
+        "name": "Retracing Bolide",
+        "rarity": "Five"
+    },
+    {
+        "id": "ScarletProof",
+        "name": "Scarlet Proof",
+        "rarity": "Five"
+    },
+    {
+        "id": "Scholar",
+        "name": "Scholar",
+        "rarity": "Five"
+    },
+    {
+        "id": "ScrollOfTheHeroOfCinderCity",
+        "name": "Scroll of the Hero of Cinder City",
+        "rarity": "Five"
+    },
+    {
+        "id": "ShimenawasReminiscence",
+        "name": "Shimenawa's Reminiscence",
+        "rarity": "Five"
+    },
+    {
+        "id": "SilkenMoonsSerenade",
+        "name": "Silken Moon's Serenade",
+        "rarity": "Five"
+    },
+    {
+        "id": "SongOfDaysPast",
+        "name": "Song of Days Past",
+        "rarity": "Five"
+    },
+    {
+        "id": "TenacityOfTheMillelith",
+        "name": "Tenacity of the Millelith",
+        "rarity": "Five"
+    },
+    {
+        "id": "TheExile",
+        "name": "The Exile",
+        "rarity": "Five"
+    },
+    {
+        "id": "ThunderingFury",
+        "name": "Thundering Fury",
+        "rarity": "Five"
+    },
+    {
+        "id": "Thundersoother",
+        "name": "Thundersoother",
+        "rarity": "Five"
+    },
+    {
+        "id": "TinyMiracle",
+        "name": "Tiny Miracle",
+        "rarity": "Five"
+    },
+    {
+        "id": "TravelingDoctor",
+        "name": "Traveling Doctor",
+        "rarity": "Four"
+    },
+    {
+        "id": "UnfinishedReverie",
+        "name": "Unfinished Reverie",
+        "rarity": "Five"
+    },
+    {
+        "id": "VermillionHereafter",
+        "name": "Vermillion Hereafter",
+        "rarity": "Five"
+    },
+    {
+        "id": "ViridescentVenerer",
+        "name": "Viridescent Venerer",
+        "rarity": "Five"
+    },
+    {
+        "id": "VourukashasGlow",
+        "name": "Vourukasha's Glow",
+        "rarity": "Five"
+    },
+    {
+        "id": "WanderersTroupe",
+        "name": "Wanderer's Troupe",
+        "rarity": "Five"
+    }
 ]

@@ -1,11 +1,11 @@
 {
-	"rules": [
-		{
-			"allowed": {
-				"origins": ["*"],
-				"methods": ["GET", "HEAD"]
-			},
-			"maxAgeSeconds": 86400
-		}
-	]
+    "rules": [
+        {
+            "allowed": {
+                "origins": ["*"],
+                "methods": ["GET", "HEAD"]
+            },
+            "maxAgeSeconds": 86400
+        }
+    ]
 }
