@@ -14,6 +14,15 @@
 // cut from in masks.json. A mask can be fixed by hand, and fetch.ts keeps it until the art is
 // framed differently, then cuts it again, hand fixes and all.
 //
+// The splash is upscaled to the close-up's scale (see upscale.ts), since stretched with Lanczos it's
+// blurrier than the close-up beside it.
+//
+// The art and cutouts are also made at twice the scale, for high-density screens. The 2× art is
+// blended the same way, from the close-up upscaled too: upscaling the 1× art instead turns the
+// close-up's fade into the splash into doubled edges. The 2× cutout uses the 1× mask enlarged.
+// Masks cut from the 2× art differ from the 1× ones by up to 5%, fixing some characters and
+// breaking others.
+//
 // The originals are in assets-src/wish/<id>/: splash.png, plus closeup.png for every character but
 // the Traveler. Either can be a .webp instead, as the Traveler's splash is.
 
@@ -21,6 +30,7 @@ import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import sharp, { type Sharp } from 'sharp';
+import { upscale } from './upscale.ts';
 
 export const ROOT = resolve(import.meta.dirname, '..');
 export const WISH_SRC_DIR = join(ROOT, 'assets-src/wish');
@@ -76,12 +86,15 @@ export type Alignment = Rect & { correlation: number };
 /** What `wishArt` frames a character's art from (see `framing`). */
 export type Framing = Record<string, number | boolean>;
 
-/** The character's art. `alignment` is from alignments.json, needed if they have a close-up. */
-export async function wishArt(s: WishSource, alignment?: Alignment): Promise<Sharp> {
+/**
+ * The character's art, at `k` times the close-up's scale. `alignment` is from alignments.json,
+ * needed if they have a close-up.
+ */
+export async function wishArt(s: WishSource, alignment?: Alignment, k = 1): Promise<Sharp> {
     const splash = await readFile(s.splash);
-    if (!s.closeUp) return figureArt(splash);
-    if (alignment!.correlation < MIN_CORRELATION) return sharp(s.closeUp);
-    return blendArt(splash, await readFile(s.closeUp), alignment!);
+    if (!s.closeUp) return enlarged(await (await figureArt(splash)).png().toBuffer(), k);
+    if (alignment!.correlation < MIN_CORRELATION) return enlarged(await readFile(s.closeUp), k);
+    return blendArt(splash, await readFile(s.closeUp), alignment!, k);
 }
 
 /**
@@ -108,25 +121,29 @@ export function maskFits(
     return JSON.stringify(cut) === JSON.stringify(framing(s, alignment));
 }
 
-/** The art with its alpha multiplied by the mask at `mask`, which has to be the art's size. */
-export async function cutout(art: Buffer, mask: string): Promise<Sharp> {
+/**
+ * The art with its alpha multiplied by the mask at `mask`, enlarged `k` times to the art's size.
+ */
+export async function cutout(art: Buffer, mask: string, k = 1): Promise<Sharp> {
     const { data, info } = await sharp(art).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-    // Flattened, in case a hand fix was saved in color or erased to transparent rather than black.
-    const m = await sharp(mask)
-        .flatten({ background: '#000' })
-        .toColourspace('b-w')
-        .raw()
-        .toBuffer({ resolveWithObject: true });
-    if (m.info.width !== info.width || m.info.height !== info.height) {
-        const sizes = `${m.info.width} × ${m.info.height}, the art ${info.width} × ${info.height}`;
-        throw new Error(`${mask} is ${sizes}`);
+    const { width, height } = await sharp(mask).metadata();
+    if (width * k !== info.width || height * k !== info.height) {
+        const sizes = `${width} × ${height}, the art ${info.width} × ${info.height}`;
+        throw new Error(`${mask} is ${sizes}${k === 1 ? '' : ` (at ${k}×)`}`);
     }
-    for (let p = 0; p < m.data.length; p++) data[p * 4 + 3] = (data[p * 4 + 3] * m.data[p]) / 255;
+    // Flattened, in case a hand fix was saved in color or erased to transparent rather than black.
+    let m = sharp(mask).flatten({ background: '#000' });
+    if (k !== 1) m = m.resize(info.width, info.height, { kernel: 'lanczos3' });
+    const levels = await m.toColourspace('b-w').raw().toBuffer();
+    for (let p = 0; p < levels.length; p++) data[p * 4 + 3] = (data[p * 4 + 3] * levels[p]) / 255;
     return sharp(data, { raw: { width: info.width, height: info.height, channels: 4 } });
 }
 
-/** The splash and close-up blended, with the close-up at `at` in the splash. */
-export async function blendArt(splash: Buffer, closeUp: Buffer, at: Rect): Promise<Sharp> {
+/**
+ * The splash and close-up blended, with the close-up at `at` in the splash, at `k` times the
+ * close-up's scale.
+ */
+export async function blendArt(splash: Buffer, closeUp: Buffer, at: Rect, k = 1): Promise<Sharp> {
     const s = await size(splash);
     const c = await size(closeUp);
     const scale = c.width / at.w;
@@ -139,12 +156,23 @@ export async function blendArt(splash: Buffer, closeUp: Buffer, at: Rect): Promi
     const width = Math.max(Math.round(rw * scale), left + c.width);
     const height = Math.max(Math.round(rh * scale), top + c.height);
 
-    const base = await sharp(splash)
+    const crop = await sharp(splash)
         .extract({ left: rx, top: ry, width: rw, height: rh })
-        .resize(width, height, { fit: 'fill' })
         .png()
         .toBuffer();
-    return sharp(base).composite([{ input: await feathered(closeUp), left, top }]);
+    const base = await sharp(await upscale(crop))
+        .resize(width * k, height * k, { fit: 'fill' })
+        .png()
+        .toBuffer();
+    const faded = await feathered(await (await enlarged(closeUp, k)).png().toBuffer(), FEATHER * k);
+    return sharp(base).composite([{ input: faded, left: left * k, top: top * k }]);
+}
+
+/** `image` at `k` times its size: upscaled, then shrunk to fit. */
+async function enlarged(image: Buffer, k: number): Promise<Sharp> {
+    if (k === 1) return sharp(image);
+    const { width, height } = await size(image);
+    return sharp(await upscale(image)).resize(width * k, height * k);
 }
 
 /**
@@ -290,14 +318,14 @@ export async function align(splash: Buffer, closeUp: Buffer): Promise<Alignment>
     return search(2, around(coarse.w), around(coarse.x), around(coarse.y));
 }
 
-/** The close-up with its alpha faded to nothing over FEATHER px at each edge. */
-async function feathered(closeUp: Buffer): Promise<Buffer> {
+/** The close-up with its alpha faded to nothing over `feather` px at each edge. */
+async function feathered(closeUp: Buffer, feather: number): Promise<Buffer> {
     const { width, height } = await size(closeUp);
     const rgba = await sharp(closeUp).ensureAlpha().raw().toBuffer();
     for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
             const edge = Math.min(x, width - 1 - x, y, height - 1 - y);
-            if (edge < FEATHER) rgba[(y * width + x) * 4 + 3] *= edge / FEATHER;
+            if (edge < feather) rgba[(y * width + x) * 4 + 3] *= edge / feather;
         }
     }
     return sharp(rgba, { raw: { width, height, channels: 4 } })

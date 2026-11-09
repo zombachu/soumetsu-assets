@@ -4,8 +4,10 @@
 //
 // 1. dist/icons/<kind>/<id>.webp, shrunk to fit ICON_SIZES. An icon is remade when its original
 //    is newer, so after changing ICON_SIZES or QUALITY, delete dist/icons/ to remake them all.
-// 2. dist/art/wish/<id>.webp and dist/art/cutout/<id>.webp (see wish-art.ts). Art is remade when
-//    its inputs change, tracked in .inputs.json in dist/art/wish/.
+// 2. dist/art/wish/<id>.webp and dist/art/cutout/<id>.webp (see wish-art.ts), and <id>@2x.webp in
+//    each at twice the scale. Making it upscales the originals (see upscale.ts), which takes a few
+//    seconds a character and downloads the model the first time. Art is remade when its inputs
+//    change, tracked in .inputs.json in dist/art/wish/.
 // 3. dist/data/*.json, copied from assets-src/data/, and dist/data/cutouts.json, the IDs of the
 //    characters with a cutout.
 
@@ -13,6 +15,7 @@ import { copyFile, mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs
 import { existsSync } from 'node:fs';
 import { join, parse } from 'node:path';
 import sharp from 'sharp';
+import { MODEL_SHA256 as UPSCALER } from './upscale.ts';
 import {
     CUTOUT_OUT_DIR,
     cutout,
@@ -30,6 +33,8 @@ import {
 } from './wish-art.ts';
 
 const QUALITY = 80;
+/** The art's scales: <id>.webp at 1×, <id>@2x.webp at 2×. */
+const SCALES = [1, 2];
 const ICON_SRC_DIR = join(ROOT, 'assets-src/icons');
 const ICON_OUT_DIR = join(ROOT, 'dist/icons');
 const DATA_SRC_DIR = join(ROOT, 'assets-src/data');
@@ -105,10 +110,11 @@ for (const s of await wishSources()) {
         uncut.push(s.id);
         continue;
     }
-    const file = join(WISH_OUT_DIR, `${s.id}.webp`);
-    const cutoutFile = join(CUTOUT_OUT_DIR, `${s.id}.webp`);
+    const names = SCALES.map((k) => `${s.id}${k === 1 ? '' : `@${k}x`}.webp`);
+    const files = names.map((name) => join(WISH_OUT_DIR, name));
+    const cutoutFiles = names.map((name) => join(CUTOUT_OUT_DIR, name));
     if (cut) cutouts.push(s.id);
-    else await rm(cutoutFile, { force: true });
+    else for (const file of cutoutFiles) await rm(file, { force: true });
     const key = JSON.stringify([
         await modified(s.splash),
         await modified(s.closeUp),
@@ -116,15 +122,22 @@ for (const s of await wishSources()) {
         cut && (await modified(mask)),
         ZOOM,
         FEATHER,
-        QUALITY
+        QUALITY,
+        UPSCALER
     ]);
     inputs[s.id] = key;
-    if (previous[s.id] === key && existsSync(file) && (!cut || existsSync(cutoutFile))) continue;
+    const outputs = cut ? [...files, ...cutoutFiles] : files;
+    if (previous[s.id] === key && outputs.every((file) => existsSync(file))) continue;
 
-    const art = await (await wishArt(s, alignment)).png().toBuffer();
-    await sharp(art).webp({ quality: QUALITY }).toFile(file);
-    if (cut) await (await cutout(art, mask)).webp({ quality: QUALITY }).toFile(cutoutFile);
+    const started = performance.now();
+    for (const [i, k] of SCALES.entries()) {
+        const art = await (await wishArt(s, alignment, k)).png().toBuffer();
+        await sharp(art).webp({ quality: QUALITY }).toFile(files[i]);
+        if (!cut) continue;
+        await (await cutout(art, mask, k)).webp({ quality: QUALITY }).toFile(cutoutFiles[i]);
+    }
     artMade++;
+    console.log(`${s.id}: ${((performance.now() - started) / 1000).toFixed(1)}s`);
 }
 
 await writeFile(INPUTS, JSON.stringify(inputs, null, 4) + '\n');
