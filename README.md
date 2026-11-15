@@ -21,13 +21,21 @@ its own folder and old folders stay, so a deployed site keeps working until you 
 
 - `assets-src/data/`: game data JSON, written by fetch.
 - `assets-src/icons/<kind>/`, `assets-src/wish/<id>/`: the originals, written by fetch.
+- `assets-src/icons/portraits/`: our copies of prydwen's character icons
+  (`cdn.prydwen.gg/images/genshin-impact/characters/<slug>_icon.webp`) for soumetsu's Tier cards,
+  each the square of the character's art that prydwen's shows. fetch cuts them from the wiki's
+  `<Name> Profile.png` (see `scripts/prydwen.ts`), except two made by hand: `Rosaria.png` is her
+  1× cutout at (9, 185), 321 px square, and `Traveler.png`, for every Traveler, is Lumine's
+  `Traveler (Female) Portrait.png` at (874, 6), 720 px square, under Aether's
+  `Traveler (Male) Portrait.png` at (1695, 150), 799 px square, both drawn at 799 px.
 - `assets-src/wish/alignments.json`: where each close-up sits in its splash (see `scripts/wish-art.ts`).
 - `assets-src/wish/<id>/mask.png`, `assets-src/wish/masks.json`: the cutouts' masks, and the framing
   each was cut from.
 - `dist/` (ignored): what gets uploaded. The cutouts are in `dist/art/cutout/`, and
   `dist/data/cutouts.json` lists which characters have one. Each art file has an `@2x` twin at
   twice the scale (`HuTao.webp`, `HuTao@2x.webp`).
-- `.cache/` (ignored): the segmentation model and the upscaler, downloaded by fetch and build.
+- `.cache/` (ignored): the segmentation model, the face detector and the upscaler, downloaded by
+  fetch and build.
 
 ## Cutouts
 

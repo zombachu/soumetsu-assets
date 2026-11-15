@@ -45,7 +45,8 @@ const ICON_SIZES: Record<string, number> = {
     weapons: 256,
     artifacts: 256,
     elements: 128,
-    'weapon-types': 128
+    'weapon-types': 128,
+    portraits: 256
 };
 const INPUTS = join(WISH_OUT_DIR, '.inputs.json');
 

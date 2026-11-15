@@ -8,9 +8,13 @@
 //    assets-src/icons/ for good.
 // 2. The wish art's originals into assets-src/wish/<id>/. The Traveler's splash isn't on the wiki,
 //    so it stays in the repo.
-// 3. Where each new close-up sits in its splash, into assets-src/wish/alignments.json (see
+// 3. Our copies of prydwen's character icons, into assets-src/icons/portraits/<id>.png: the square
+//    of each character's official art (the wiki's `<Name> Profile.png`) that prydwen's icon of them
+//    shows (see prydwen.ts). The Traveler's and Rosaria's aren't cut from that art, so they were
+//    made by hand and stay in the repo (see the README). Delete one to cut it again.
+// 4. Where each new close-up sits in its splash, into assets-src/wish/alignments.json (see
 //    wish-art.ts). Delete a character's entry to align it again, or edit it by hand.
-// 4. The cutouts' masks, into assets-src/wish/<id>/mask.png (see wish-art.ts and segment.ts),
+// 5. The cutouts' masks, into assets-src/wish/<id>/mask.png (see wish-art.ts and segment.ts),
 //    for characters with none or whose art is now framed differently. Needs macOS. Delete a
 //    mask to cut it again, or fix it by hand.
 //
@@ -19,6 +23,8 @@
 import { existsSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { basename, dirname, join } from 'node:path';
+import sharp from 'sharp';
+import { fetchIcon, findIcon, MIN_ICON_CORRELATION } from './prydwen.ts';
 import { cutMasks } from './segment.ts';
 import {
     align,
@@ -44,6 +50,7 @@ const WIKI = 'https://genshin-impact.fandom.com/api.php';
 
 const DATA_DIR = join(ROOT, 'assets-src/data');
 const ICON_DIR = join(ROOT, 'assets-src/icons');
+const PORTRAIT_DIR = join(ICON_DIR, 'portraits');
 
 const ELEMENTS = ['Anemo', 'Geo', 'Electro', 'Dendro', 'Hydro', 'Pyro', 'Cryo'];
 const WEAPON_TYPES = ['Sword', 'Claymore', 'Polearm', 'Bow', 'Catalyst'];
@@ -86,6 +93,11 @@ interface WishDownload {
     id: string;
     splash: string;
     closeUp: string;
+}
+/** A character whose icon to cut from `<name> Profile.png`, where prydwen's icon of them is. */
+interface ProfileDownload {
+    id: string;
+    name: string;
 }
 
 async function fetchOk(url: string): Promise<Response> {
@@ -359,6 +371,7 @@ const releasedOnUpdate = (page: string, version: Version): boolean =>
 const travelerPage = pages.get('Traveler');
 if (travelerPage === undefined) throw new Error('Traveler: not on the wiki');
 const wish: WishDownload[] = [];
+const profiles: ProfileDownload[] = [];
 for (const title of characterTitles) {
     const page = pages.get(title);
     if (page === undefined) continue;
@@ -388,6 +401,7 @@ for (const title of characterTitles) {
     add(characterEntries, entry, goCharacters, 'characters', icon);
     if (!traveler && goCharacters.has(id)) {
         wish.push({ id, splash: `${title} Wish.png`, closeUp: `${title} Multi Wish.png` });
+        profiles.push({ id, name: title });
     }
 }
 
@@ -480,6 +494,44 @@ const wishWorker = async () => {
 };
 await Promise.all(Array.from({ length: 8 }, wishWorker));
 console.log(`Wish art: ${wishSaved} characters saved`);
+
+// Our copies of prydwen's icons.
+
+const profileQueue = profiles.filter((d) => !image(PORTRAIT_DIR, d.id));
+const profileUrls = await wikiImages(profileQueue.map((d) => `${d.name} Profile.png`));
+const noIcon: string[] = [];
+const notFound: string[] = [];
+let iconsCut = 0;
+await mkdir(PORTRAIT_DIR, { recursive: true });
+for (const d of profileQueue) {
+    const profile = `${d.name} Profile.png`;
+    const url = profileUrls.get(profile);
+    if (url === undefined) {
+        missing.push(profile);
+        continue;
+    }
+    const icon = await fetchIcon(d.name);
+    if (icon === undefined) {
+        noIcon.push(d.name);
+        continue;
+    }
+    const art = await download(url);
+    const found = await findIcon(icon, art);
+    if (found.correlation < MIN_ICON_CORRELATION) {
+        notFound.push(`${d.name} (${found.correlation.toFixed(2)})`);
+        continue;
+    }
+    await sharp(art)
+        .extract({ left: found.x, top: found.y, width: found.size, height: found.size })
+        .png()
+        .toFile(join(PORTRAIT_DIR, `${d.id}.png`));
+    iconsCut++;
+}
+console.log(`Portraits: ${iconsCut} cut`);
+if (noIcon.length > 0) console.warn(`No prydwen icon yet (rerun later): ${noIcon.join(', ')}`);
+if (notFound.length > 0) {
+    console.warn(`Not found in their Profile art, so cut by hand: ${notFound.join(', ')}`);
+}
 
 if (missing.length > 0) {
     console.warn('Not on the wiki (rerun later):');
