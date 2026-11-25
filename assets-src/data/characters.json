@@ -552,6 +552,14 @@
         "release": "3.5.2"
     },
     {
+        "id": "Mitya",
+        "name": "Mitya",
+        "element": "Electro",
+        "weaponType": "Catalyst",
+        "rarity": "Five",
+        "release": "7.2.1"
+    },
+    {
         "id": "Mona",
         "name": "Mona",
         "element": "Hydro",
@@ -838,6 +846,14 @@
         "weaponType": "Sword",
         "rarity": "Five",
         "release": "5.3.0"
+    },
+    {
+        "id": "Valeriy",
+        "name": "Valeriy",
+        "element": "Electro",
+        "weaponType": "Sword",
+        "rarity": "Four",
+        "release": "7.2.1"
     },
     {
         "id": "Varesa",

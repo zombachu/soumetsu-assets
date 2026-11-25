@@ -290,9 +290,21 @@ async function saveImages(list: Download[]): Promise<number> {
     return saved;
 }
 
-async function writeJson(name: string, entries: Entry[]) {
+/** Writes the entries, and returns the names of those added to the file and removed from it. */
+async function writeJson(
+    name: string,
+    entries: Entry[]
+): Promise<{ added: string[]; removed: string[] }> {
+    const file = join(DATA_DIR, name);
+    const old: Entry[] = existsSync(file) ? JSON.parse(await readFile(file, 'utf8')) : [];
+    const oldIds = new Set(old.map((entry) => entry.id));
+    const ids = new Set(entries.map((entry) => entry.id));
     entries.sort((a, b) => a.id.localeCompare(b.id));
-    await writeFile(join(DATA_DIR, name), JSON.stringify(entries, null, 4) + '\n');
+    await writeFile(file, JSON.stringify(entries, null, 4) + '\n');
+    return {
+        added: entries.filter((entry) => !oldIds.has(entry.id)).map((entry) => entry.name),
+        removed: old.filter((entry) => !ids.has(entry.id)).map((entry) => entry.name)
+    };
 }
 
 // Game data and icons.
@@ -454,14 +466,20 @@ for (const kind of ['characters', 'weapons', 'artifacts']) {
 const iconsSaved = await saveImages(icons);
 
 await mkdir(DATA_DIR, { recursive: true });
-await writeJson('characters.json', characterEntries);
-await writeJson('weapons.json', weaponEntries);
-await writeJson('artifacts.json', artifactEntries);
+const changes = {
+    characters: await writeJson('characters.json', characterEntries),
+    weapons: await writeJson('weapons.json', weaponEntries),
+    'artifact sets': await writeJson('artifacts.json', artifactEntries)
+};
 
 console.log(
     `${characterEntries.length} characters, ${weaponEntries.length} weapons, ` +
         `${artifactEntries.length} artifact sets; ${iconsSaved} new icons`
 );
+for (const [kind, { added, removed }] of Object.entries(changes)) {
+    if (added.length > 0) console.log(`New ${kind}: ${added.join(', ')}`);
+    if (removed.length > 0) console.warn(`Removed ${kind}: ${removed.join(', ')}`);
+}
 if (notInGood.length > 0) {
     console.warn('Left out, not in GOOD (fix toGoodKey if it should be):');
     for (const key of notInGood) console.warn(`  ${key}`);
