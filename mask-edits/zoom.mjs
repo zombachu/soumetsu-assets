@@ -5,7 +5,7 @@ import sharp from 'sharp';
 const A = join(import.meta.dirname, '..');
 const D = import.meta.dirname;
 const [id, ...rest] = process.argv.slice(2);
-const meta = await sharp(join(A, 'dist/art/wish', id + '.webp')).metadata();
+const meta = await sharp(join(A, '../soumetsu-cdn/art/wish', id + '.webp')).metadata();
 let [x0, y0, x1, y1] = rest.slice(0, 4).map(Number);
 x0 = Math.max(0, x0); y0 = Math.max(0, y0);
 x1 = Math.min(meta.width, x1); y1 = Math.min(meta.height, y1);
@@ -14,7 +14,7 @@ const src = rest[5] ?? 'out';
 const gain = Number(rest[6] ?? 1);
 const w = x1 - x0;
 const h = y1 - y0;
-const art = await sharp(join(A, 'dist/art/wish', id + '.webp'))
+const art = await sharp(join(A, '../soumetsu-cdn/art/wish', id + '.webp'))
     .ensureAlpha()
     .extract({ left: x0, top: y0, width: w, height: h })
     .raw()

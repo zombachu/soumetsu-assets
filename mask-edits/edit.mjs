@@ -88,7 +88,7 @@ export async function apply(id, ops) {
         .toBuffer({ resolveWithObject: true });
     const { width: w, height: h } = info;
     const m = Float32Array.from(m0);
-    const art = await sharp(join(A, 'dist/art/wish', id + '.webp')).ensureAlpha().raw().toBuffer();
+    const art = await sharp(join(A, '../soumetsu-cdn/art/wish', id + '.webp')).ensureAlpha().raw().toBuffer();
     const all = await polyCoverage([[[0, 0], [w, 0], [w, h], [0, h]]], w, h);
     const region = async (poly) => (poly ? polyCoverage([poly], w, h) : all);
 

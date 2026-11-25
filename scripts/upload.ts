@@ -1,18 +1,16 @@
-// Puts dist/ (see build.ts) into the R2 bucket under v/<commit>/, where <commit> is this repo's
-// current commit, so each upload gets its own folder and a deployed site never sees its files
-// change. Then prints the URL to set as ASSETS in the site's src/lib/assets.ts:
+// Puts ../soumetsu-cdn/ (see build.ts) into the R2 bucket under v/<hash>/, where <hash> comes
+// from the files' contents and paths, so changed files get a new folder and a deployed site never
+// sees its files change. Then prints the URL to set as ASSETS in the site's src/lib/assets.ts:
 // `npm run upload`
 //
-// Needs a clean working tree, so the folder name says exactly what's in it, and the R2 keys in
-// .env (see .env.example).
+// Needs the R2 keys in .env (see .env.example).
 
-import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { readdir, readFile } from 'node:fs/promises';
 import { extname, join, relative } from 'node:path';
 import { HeadObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import { ROOT } from './wish-art.ts';
+import { CDN_DIR } from './wish-art.ts';
 
-const DIST = join(ROOT, 'dist');
 const TYPES: Record<string, string> = {
     '.webp': 'image/webp',
     '.png': 'image/png',
@@ -25,12 +23,25 @@ const env = (name: string) => {
     return value;
 };
 
-const git = (...args: string[]) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8' }).trim();
-if (git('status', '--porcelain')) {
-    console.error('Commit your changes first, so the upload matches a commit.');
+// The files' keys in the bucket, leaving out hidden files and folders: Finder's .DS_Store, and the
+// .git/fork/ settings the Fork git client writes into a folder it still lists as a repo.
+const keys = (await readdir(CDN_DIR, { recursive: true, withFileTypes: true }))
+    .filter((entry) => entry.isFile())
+    .map((entry) => relative(CDN_DIR, join(entry.parentPath, entry.name)).split('\\').join('/'))
+    .filter((key) => !key.split('/').some((part) => part.startsWith('.')))
+    .sort();
+if (keys.length === 0) {
+    console.error(`${CDN_DIR} is empty: run npm run build first.`);
     process.exit(1);
 }
-const version = git('rev-parse', '--short', 'HEAD');
+
+// The SHA-256 of the files' `shasum -a 256` lines.
+const hash = createHash('sha256');
+for (const key of keys) {
+    const digest = createHash('sha256').update(await readFile(join(CDN_DIR, key))).digest('hex');
+    hash.update(`${digest}  ${key}\n`);
+}
+const version = hash.digest('hex').slice(0, 12);
 const prefix = `v/${version}`;
 const url = `${env('R2_PUBLIC_URL').replace(/\/$/, '')}/${prefix}`;
 
@@ -54,30 +65,21 @@ try {
     if ((e as { name?: string }).name !== 'NotFound') throw e;
 }
 
-// Every file in dist/ but the build's own (.inputs.json).
-const files = (await readdir(DIST, { recursive: true, withFileTypes: true }))
-    .filter((entry) => entry.isFile() && !entry.name.startsWith('.'))
-    .map((entry) => join(entry.parentPath, entry.name));
-if (!files.some((file) => file.endsWith('.json'))) {
-    console.error('dist/ has no data: run npm run build first.');
-    process.exit(1);
-}
-
 let uploaded = 0;
-const queue = [...files];
+const queue = [...keys];
 const worker = async () => {
-    for (let file = queue.shift(); file; file = queue.shift()) {
+    for (let key = queue.shift(); key; key = queue.shift()) {
         await s3.send(
             new PutObjectCommand({
                 Bucket: bucket,
-                Key: `${prefix}/${relative(DIST, file).split('\\').join('/')}`,
-                Body: await readFile(file),
-                ContentType: TYPES[extname(file)] ?? 'application/octet-stream',
+                Key: `${prefix}/${key}`,
+                Body: await readFile(join(CDN_DIR, key)),
+                ContentType: TYPES[extname(key)] ?? 'application/octet-stream',
                 // A folder's files never change, so browsers can keep them for good.
                 CacheControl: 'public, max-age=31536000, immutable'
             })
         );
-        if (++uploaded % 100 === 0) console.log(`${uploaded} / ${files.length}`);
+        if (++uploaded % 100 === 0) console.log(`${uploaded} / ${keys.length}`);
     }
 };
 await Promise.all(Array.from({ length: 16 }, worker));

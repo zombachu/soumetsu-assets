@@ -9,7 +9,7 @@ const H = Number(process.env.H ?? 560); // tile height
 const COLS = Number(process.env.COLS ?? Infinity);
 const tiles = [];
 for (const id of ids) {
-  const art = join(A, 'dist/art/wish', id + '.webp');
+  const art = join(A, '../soumetsu-cdn/art/wish', id + '.webp');
   const cut = join(A, 'dist/art/cutout', id + '.webp');
   const m = await sharp(art).metadata();
   const w = Math.round(m.width * H / m.height);

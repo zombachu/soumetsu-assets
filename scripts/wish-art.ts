@@ -33,8 +33,10 @@ import sharp, { type Sharp } from 'sharp';
 import { upscale } from './upscale.ts';
 
 export const ROOT = resolve(import.meta.dirname, '..');
+export const CDN_DIR = resolve(ROOT, '../soumetsu-cdn');
 export const WISH_SRC_DIR = join(ROOT, 'assets-src/wish');
-export const WISH_OUT_DIR = join(ROOT, 'dist/art/wish');
+export const WISH_OUT_DIR = join(CDN_DIR, 'art/wish');
+export const WISH_2X_OUT_DIR = join(ROOT, 'dist/art/wish');
 export const CUTOUT_OUT_DIR = join(ROOT, 'dist/art/cutout');
 const ALIGNMENTS = join(WISH_SRC_DIR, 'alignments.json');
 const MASKS = join(WISH_SRC_DIR, 'masks.json');

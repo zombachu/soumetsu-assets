@@ -1,7 +1,7 @@
 // Print HSV of art pixels: node px.mjs <id> x,y x,y ...
 import sharp from 'sharp';
 const [id, ...pts] = process.argv.slice(2);
-const { data, info } = await sharp(`${import.meta.dirname}/../dist/art/wish/${id}.webp`).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+const { data, info } = await sharp(`${import.meta.dirname}/../../soumetsu-cdn/art/wish/${id}.webp`).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
 for (const pt of pts) {
     const [x, y] = pt.split(',').map(Number);
     const p = (y * info.width + x) * 4;

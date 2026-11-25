@@ -1,22 +1,25 @@
-// Makes what the site uses from the originals in assets-src/ (see fetch.ts) into dist/, which
-// upload.ts puts online. Only remakes what changed:
+// Makes what the site loads from the originals in assets-src/ (see fetch.ts) into
+// ../soumetsu-cdn/, which upload.ts puts online, and the rest into dist/. Only remakes what
+// changed:
 // `npm run build`
 //
-// 1. dist/icons/<kind>/<id>.webp, shrunk to fit ICON_SIZES. An icon is remade when its original
-//    is newer, so after changing ICON_SIZES or QUALITY, delete dist/icons/ to remake them all.
-// 2. dist/art/wish/<id>.webp and dist/art/cutout/<id>.webp (see wish-art.ts), and <id>@2x.webp in
-//    each at twice the scale. Making it upscales the originals (see upscale.ts), which takes a few
-//    seconds a character and downloads the model the first time. Art is remade when its inputs
-//    change, tracked in .inputs.json in dist/art/wish/.
-// 3. dist/data/*.json, copied from assets-src/data/, and dist/data/cutouts.json, the IDs of the
-//    characters with a cutout.
+// 1. ../soumetsu-cdn/icons/<kind>/<id>.webp, shrunk to fit ICON_SIZES. An icon is remade when
+//    its original is newer, so after changing ICON_SIZES or QUALITY, delete
+//    ../soumetsu-cdn/icons/ to remake them all.
+// 2. ../soumetsu-cdn/art/wish/<id>.webp and dist/art/cutout/<id>.webp (see wish-art.ts), and
+//    <id>@2x.webp of each at twice the scale, in dist/art/wish/ and dist/art/cutout/. Making it
+//    upscales the originals (see upscale.ts), which takes a few seconds a character and downloads
+//    the model the first time. Art is remade when its inputs change, tracked in .inputs.json in
+//    dist/art/wish/.
+// 3. dist/data/cutouts.json, the IDs of the characters with a cutout.
 
-import { copyFile, mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
+import { mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join, parse } from 'node:path';
 import sharp from 'sharp';
 import { MODEL_SHA256 as UPSCALER } from './upscale.ts';
 import {
+    CDN_DIR,
     CUTOUT_OUT_DIR,
     cutout,
     FEATHER,
@@ -26,6 +29,7 @@ import {
     readAlignments,
     readMasks,
     ROOT,
+    WISH_2X_OUT_DIR,
     WISH_OUT_DIR,
     wishArt,
     wishSources,
@@ -36,8 +40,7 @@ const QUALITY = 80;
 /** The art's scales: <id>.webp at 1×, <id>@2x.webp at 2×. */
 const SCALES = [1, 2];
 const ICON_SRC_DIR = join(ROOT, 'assets-src/icons');
-const ICON_OUT_DIR = join(ROOT, 'dist/icons');
-const DATA_SRC_DIR = join(ROOT, 'assets-src/data');
+const ICON_OUT_DIR = join(CDN_DIR, 'icons');
 const DATA_OUT_DIR = join(ROOT, 'dist/data');
 /** The largest width and height for each kind's icons, in px. */
 const ICON_SIZES: Record<string, number> = {
@@ -48,7 +51,7 @@ const ICON_SIZES: Record<string, number> = {
     'weapon-types': 128,
     portraits: 256
 };
-const INPUTS = join(WISH_OUT_DIR, '.inputs.json');
+const INPUTS = join(WISH_2X_OUT_DIR, '.inputs.json');
 
 const modified = async (file?: string) => file && (await stat(file)).mtimeMs;
 
@@ -77,19 +80,14 @@ for (const [kind, size] of Object.entries(ICON_SIZES)) {
 }
 console.log(`Icons: ${iconsMade} made, ${iconsUnchanged} unchanged`);
 
-// The game data.
-
-await mkdir(DATA_OUT_DIR, { recursive: true });
-const dataFiles = (await readdir(DATA_SRC_DIR)).filter((name) => name.endsWith('.json'));
-for (const name of dataFiles) await copyFile(join(DATA_SRC_DIR, name), join(DATA_OUT_DIR, name));
-console.log(`Data: ${dataFiles.length} files copied`);
-
 // The wish art.
 
 const alignments = await readAlignments();
 const masks = await readMasks();
 await mkdir(WISH_OUT_DIR, { recursive: true });
+await mkdir(WISH_2X_OUT_DIR, { recursive: true });
 await mkdir(CUTOUT_OUT_DIR, { recursive: true });
+await mkdir(DATA_OUT_DIR, { recursive: true });
 const previous: Record<string, string> = existsSync(INPUTS)
     ? JSON.parse(await readFile(INPUTS, 'utf8'))
     : {};
@@ -112,7 +110,7 @@ for (const s of await wishSources()) {
         continue;
     }
     const names = SCALES.map((k) => `${s.id}${k === 1 ? '' : `@${k}x`}.webp`);
-    const files = names.map((name) => join(WISH_OUT_DIR, name));
+    const files = SCALES.map((k, i) => join(k === 1 ? WISH_OUT_DIR : WISH_2X_OUT_DIR, names[i]));
     const cutoutFiles = names.map((name) => join(CUTOUT_OUT_DIR, name));
     if (cut) cutouts.push(s.id);
     else for (const file of cutoutFiles) await rm(file, { force: true });
