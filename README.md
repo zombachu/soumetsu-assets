@@ -14,9 +14,10 @@ a character on an M5 Pro: 14 minutes when everything is remade, as after a chang
 `ZOOM` or `FEATHER`. The upscaler, 4x-AnimeSharp, is downloaded the first time and licensed CC
 BY-NC-SA 4.0 (non-commercial).
 
-Paste the printed `export const ASSETS = '...'` into the site's `src/lib/assets.ts`. Each set of files
-gets its own folder, named from their contents, and old folders stay, so a deployed site keeps working
-until you point it at a new one.
+`npm run upload` puts `../soumetsu-cdn/` into the R2 bucket at the same paths, uploading only new
+and changed files; the site's `npm run deploy` runs it first. Nothing in the bucket is deleted, so
+keep paths stable: a deployed site loads every file it was built against. A replaced file can take a
+day to reach browsers that have the old one.
 
 ## Layout
 

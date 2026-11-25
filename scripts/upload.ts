@@ -1,14 +1,14 @@
-// Puts ../soumetsu-cdn/ (see build.ts) into the R2 bucket under v/<hash>/, where <hash> comes
-// from the files' contents and paths, so changed files get a new folder and a deployed site never
-// sees its files change. Then prints the URL to set as ASSETS in the site's src/lib/assets.ts:
+// Puts ../soumetsu-cdn/ (see build.ts) into the R2 bucket at the same paths, uploading only the
+// files that are new or changed. Nothing in the bucket is deleted, so a deployed site keeps finding
+// every file it was built against. The site's `npm run deploy` runs this before deploying:
 // `npm run upload`
 //
-// Needs the R2 keys in .env (see .env.example).
+// Needs R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY and R2_BUCKET in .env.
 
 import { createHash } from 'node:crypto';
 import { readdir, readFile } from 'node:fs/promises';
 import { extname, join, relative } from 'node:path';
-import { HeadObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { ListObjectsV2Command, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { CDN_DIR } from './wish-art.ts';
 
 const TYPES: Record<string, string> = {
@@ -19,7 +19,7 @@ const TYPES: Record<string, string> = {
 
 const env = (name: string) => {
     const value = process.env[name];
-    if (!value) throw new Error(`${name} isn't set: copy .env.example to .env and fill it in`);
+    if (!value) throw new Error(`${name} isn't set in .env`);
     return value;
 };
 
@@ -35,16 +35,6 @@ if (keys.length === 0) {
     process.exit(1);
 }
 
-// The SHA-256 of the files' `shasum -a 256` lines.
-const hash = createHash('sha256');
-for (const key of keys) {
-    const digest = createHash('sha256').update(await readFile(join(CDN_DIR, key))).digest('hex');
-    hash.update(`${digest}  ${key}\n`);
-}
-const version = hash.digest('hex').slice(0, 12);
-const prefix = `v/${version}`;
-const url = `${env('R2_PUBLIC_URL').replace(/\/$/, '')}/${prefix}`;
-
 const bucket = env('R2_BUCKET');
 const s3 = new S3Client({
     region: 'auto',
@@ -55,35 +45,48 @@ const s3 = new S3Client({
     }
 });
 
-// The last file uploaded, so a folder that has it is complete.
-const LAST = `${prefix}/done`;
-try {
-    await s3.send(new HeadObjectCommand({ Bucket: bucket, Key: LAST }));
-    console.log(`Already uploaded: ${url}`);
-    process.exit(0);
-} catch (e) {
-    if ((e as { name?: string }).name !== 'NotFound') throw e;
-}
+// R2 gives a file uploaded in one request the MD5 of its contents as its ETag.
+const etags = new Map<string, string>();
+let page: string | undefined;
+do {
+    const list = await s3.send(
+        new ListObjectsV2Command({ Bucket: bucket, ContinuationToken: page })
+    );
+    for (const { Key, ETag } of list.Contents ?? []) {
+        if (Key !== undefined && ETag !== undefined) etags.set(Key, ETag.replaceAll('"', ''));
+    }
+    page = list.NextContinuationToken;
+} while (page !== undefined);
 
-let uploaded = 0;
+let added = 0;
+let changed = 0;
 const queue = [...keys];
 const worker = async () => {
     for (let key = queue.shift(); key; key = queue.shift()) {
+        const body = await readFile(join(CDN_DIR, key));
+        const etag = etags.get(key);
+        if (etag === createHash('md5').update(body).digest('hex')) continue;
+
         await s3.send(
             new PutObjectCommand({
                 Bucket: bucket,
-                Key: `${prefix}/${key}`,
-                Body: await readFile(join(CDN_DIR, key)),
+                Key: key,
+                Body: body,
                 ContentType: TYPES[extname(key)] ?? 'application/octet-stream',
-                // A folder's files never change, so browsers can keep them for good.
-                CacheControl: 'public, max-age=31536000, immutable'
+                // A file can be replaced at the same URL, so browsers check for a new one daily.
+                CacheControl: 'public, max-age=86400'
             })
         );
-        if (++uploaded % 100 === 0) console.log(`${uploaded} / ${keys.length}`);
+        if (etag === undefined) {
+            added++;
+        } else {
+            changed++;
+        }
+        if ((added + changed) % 100 === 0) console.log(`${added + changed} uploaded`);
     }
 };
 await Promise.all(Array.from({ length: 16 }, worker));
-await s3.send(new PutObjectCommand({ Bucket: bucket, Key: LAST, Body: version }));
 
-console.log(`Uploaded ${uploaded} files. In the site's src/lib/assets.ts, set:`);
-console.log(`export const ASSETS = '${url}';`);
+console.log(
+    `Uploaded ${added} new and ${changed} changed files, ${keys.length - added - changed} unchanged.`
+);
