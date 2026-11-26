@@ -104,10 +104,10 @@ for (const s of await wishSources()) {
         continue;
     }
     const mask = maskFile(s.id);
-    const cut = !NO_CUTOUT.has(s.id);
+    let cut = !NO_CUTOUT.has(s.id);
     if (cut && !maskFits(s, alignment, masks)) {
         uncut.push(s.id);
-        continue;
+        cut = false;
     }
     const names = SCALES.map((k) => `${s.id}${k === 1 ? '' : `@${k}x`}.webp`);
     const files = SCALES.map((k, i) => join(k === 1 ? WISH_OUT_DIR : WISH_2X_OUT_DIR, names[i]));
@@ -147,8 +147,8 @@ if (unaligned.length > 0) {
     console.error(`No alignment for ${unaligned.join(', ')}: run npm run fetch and commit it`);
 }
 if (uncut.length > 0) {
-    console.error(
-        `No mask, or one cut for other framing, for ${uncut.join(', ')}: run npm run fetch and commit it`
+    console.warn(
+        `No cutout for ${uncut.join(', ')}, with no mask or one cut for other framing: run npm run fetch and commit it`
     );
 }
-if (unaligned.length > 0 || uncut.length > 0) process.exit(1);
+if (unaligned.length > 0) process.exit(1);
